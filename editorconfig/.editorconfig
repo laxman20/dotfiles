@@ -1,0 +1,21 @@
+root = true
+
+[*.{js,ts}]
+indent_style = space
+indent_size = 2
+
+[*.lua]
+indent_style = space
+indent_size = 2
+
+[*.java]
+indent_style = tab
+tab_width = 4
+
+[*.yml]
+indent_style = space
+indent_size = 2
+
+[*.sh]
+indent_style = space
+indent_size = 2

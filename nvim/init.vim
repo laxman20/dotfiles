@@ -1,4 +1,3 @@
-
 function! PackInit() abort
 	packadd minpac
 
@@ -14,6 +13,10 @@ function! PackInit() abort
 	call minpac#add('nvim-lua/completion-nvim')
 	call minpac#add('hrsh7th/vim-vsnip')
 	call minpac#add('hrsh7th/vim-vsnip-integ')
+	call minpac#add('tpope/vim-surround')
+	call minpac#add('tpope/vim-commentary')
+	call minpac#add('tpope/vim-unimpaired')
+	call minpac#add('tpope/vim-repeat')
 endfunction
 
 command! PackUpdate source $MYVIMRC | call PackInit() | call minpac#update()
