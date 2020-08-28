@@ -1,4 +1,4 @@
-[ -f ~/.config/zsh/config.zsh] && source ~/.config/zsh/config.zsh
+[ -f ~/.config/zsh/config.zsh ] && source ~/.config/zsh/config.zsh
 [ -f ~/.zsh/antigen.zsh ] && source ~/.zsh/antigen.zsh
 
 antigen bundle zsh-users/zsh-autosuggestions
@@ -11,5 +11,8 @@ alias vim='nvim'
 
 alias gst='git status'
 alias gdiff='git diff'
+alias uncrustify-java='uncrustify -c $HOME/.config/uncrustify/java-uncrustify.cfg --no-backup --replace'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+PROMPT='%B%F{240}%1~%f%b > '
