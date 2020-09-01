@@ -1,6 +1,14 @@
 [ -f ~/.config/zsh/config.zsh ] && source ~/.config/zsh/config.zsh
 [ -f ~/.zsh/antigen.zsh ] && source ~/.zsh/antigen.zsh
 
+fpath=(~/.config/zsh/completions $fpath)
+
+autoload -Uz compinit && compinit
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey -e
+bindkey '^x^e' edit-command-line
+
 antigen bundle zsh-users/zsh-autosuggestions
 
 antigen bundle zsh-users/zsh-syntax-highlighting
@@ -22,3 +30,6 @@ PROMPT='%B%F{240}%1~%f%b > '
 
 export EDITOR='nvim'
 
+vimscript() {
+	vim `which "$1"`
+}

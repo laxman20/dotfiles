@@ -1,0 +1,13 @@
+#compdef vimscript
+
+_vimcript() {
+
+local state
+  _arguments '1: :->vim_scripts'
+
+  case $state in
+    (vim_scripts) _arguments '1:scripts:($(ls ~/.local/bin))' ;;
+  esac
+}
+
+_vimcript "$@"

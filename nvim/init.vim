@@ -17,6 +17,9 @@ function! PackInit() abort
 	call minpac#add('tpope/vim-commentary')
 	call minpac#add('tpope/vim-unimpaired')
 	call minpac#add('tpope/vim-repeat')
+	call minpac#add('neovim/nvim-lsp')
+	call minpac#add('nvim-lua/diagnostic-nvim')
+
 endfunction
 
 command! PackUpdate source $MYVIMRC | call PackInit() | call minpac#update()
@@ -26,7 +29,9 @@ command! PackStatus packadd minpac | call minpac#status()
 
 set number
 set hidden
-set ts=4 sw=4
+set tabstop=4 shiftwidth=4
+set incsearch
+set ignorecase smartcase
 colorscheme apprentice
 
 inoremap jk <Esc>
@@ -46,9 +51,14 @@ set shortmess+=c
 
 let g:completion_auto_change_source = 1
 let g:completion_enable_snippet = 'vim-vsnip'
+let g:diagnostic_insert_delay = 1
 
 " Jump forward or backward
 imap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
 smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
 imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
 smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+
+packloadall!
+lua require'lsp'
+
