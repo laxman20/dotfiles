@@ -40,8 +40,14 @@ PROMPT='%B%F{240}%1~%f%b > '
 
 export EDITOR='nvim'
 
+full-join() {
+	cat <(join -t',' -a1 -o'0,1.2,2.2' <(cat "$1") <(cat "$2")) \
+		<(join -t',' -a2 -o'0,1.2,2.2' <(cat "$1") <(cat "$2")) \
+		| sort -u
+}
+
 vimscript() {
-	vim `which "$1"`
+	nvim `which "$1"`
 }
 
 chenv() {
