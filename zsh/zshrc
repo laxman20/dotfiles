@@ -46,6 +46,10 @@ full-join() {
 		| sort -u
 }
 
+jira() {
+	git log | ag 'ULTI-[0-9]{6}' | head -n1 | sed -E 's/.*(ULTI-[0-9]{6}).*/\1/'
+}
+
 vimscript() {
 	nvim `which "$1"`
 }

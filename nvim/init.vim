@@ -17,6 +17,7 @@ function! PackInit() abort
 	call minpac#add('tpope/vim-commentary')
 	call minpac#add('tpope/vim-unimpaired')
 	call minpac#add('tpope/vim-repeat')
+	call minpac#add('tpope/vim-fugitive')
 	call minpac#add('neovim/nvim-lsp')
 	call minpac#add('nvim-lua/diagnostic-nvim')
 
