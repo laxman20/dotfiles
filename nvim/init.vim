@@ -33,7 +33,6 @@ set hidden
 set tabstop=4 shiftwidth=4
 set incsearch
 set ignorecase smartcase
-set path=.,,src/**
 set grepprg=ag\ --vimgrep
 colorscheme apprentice
 
