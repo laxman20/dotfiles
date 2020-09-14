@@ -16,5 +16,3 @@ local on_attach = function()
 end
 
 require'nvim_lsp'.bashls.setup{ on_attach=on_attach }
-require'nvim_lsp'.jdtls.setup{ on_attach=on_attach }
-require'nvim_lsp'.tsserver.setup{ on_attach=on_attach }

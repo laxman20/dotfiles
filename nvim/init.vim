@@ -18,6 +18,7 @@ function! PackInit() abort
 	call minpac#add('tpope/vim-unimpaired')
 	call minpac#add('tpope/vim-repeat')
 	call minpac#add('tpope/vim-fugitive')
+	call minpac#add('tpope/vim-projectionist')
 	call minpac#add('neovim/nvim-lsp')
 	call minpac#add('nvim-lua/diagnostic-nvim')
 
@@ -38,6 +39,7 @@ colorscheme apprentice
 
 inoremap jk <Esc>
 nnoremap <Space>f :Files<CR>
+nnoremap <C-]> g<C-]>
 
 autocmd BufEnter * lua require'completion'.on_attach()
 
@@ -63,4 +65,6 @@ smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-T
 
 packloadall!
 lua require'lsp'
+
+command! Ghistory Glog -- %
 
