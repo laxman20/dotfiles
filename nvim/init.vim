@@ -21,6 +21,9 @@ function! PackInit() abort
 	call minpac#add('tpope/vim-projectionist')
 	call minpac#add('neovim/nvim-lsp')
 	call minpac#add('nvim-lua/diagnostic-nvim')
+	call minpac#add('nvim-lua/popup.nvim')
+	call minpac#add('nvim-lua/plenary.nvim')
+	call minpac#add('nvim-lua/telescope.nvim')
 
 endfunction
 
@@ -34,14 +37,23 @@ set hidden
 set tabstop=4 shiftwidth=4
 set incsearch
 set ignorecase smartcase
+set tagcase=smart
+set tags+=jstags
 set grepprg=ag\ --vimgrep
 colorscheme apprentice
 
 inoremap jk <Esc>
-nnoremap <Space>f :Files<CR>
+" nnoremap <Space>f :lua require'telescope.builtin'.find_files{}<CR>
+nnoremap <Space>f :FZF<CR>
 nnoremap <C-]> g<C-]>
+vnoremap <C-]> g<C-]>
+inoremap <C-f> <C-x><C-f>
 
-autocmd BufEnter * lua require'completion'.on_attach()
+augroup commands
+	autocmd!
+	autocmd BufEnter * lua require'completion'.on_attach()
+	au BufRead,BufNewFile jstags		setlocal filetype=tags
+augroup END
 
 " Use <Tab> and <S-Tab> to navigate through popup menu
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"

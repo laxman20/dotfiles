@@ -29,7 +29,6 @@ alias c6="awk '{print \$6}'"
 alias c7="awk '{print \$7}'"
 alias c8="awk '{print \$8}'"
 alias c9="awk '{print \$9}'"
-alias jtags="ctags -R --languages=Java"
 
 alias uncrustify-java='uncrustify -c $HOME/.config/uncrustify/java-uncrustify.cfg --no-backup --replace'
 
