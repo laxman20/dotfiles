@@ -4,15 +4,22 @@ end
 
 local on_attach = function()
 
-  mapper('n', 'gd', '<cmd>lua vim.lsp.buf.declaration()<CR>')
-  mapper('n', '<c-]>', '<cmd>lua vim.lsp.buf.definition()<CR>')
+  -- mapper('n', 'gd', '<cmd>lua vim.lsp.buf.declaration()<CR>')
+  -- mapper('n', '<c-]>', '<cmd>lua vim.lsp.buf.definition()<CR>')
   mapper('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>')
-  mapper('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>')
-  mapper('n', '<space>cr', '<cmd>lua vim.lsp.buf.rename()<CR>')
+  -- mapper('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>')
+  -- mapper('n', '<space>cr', '<cmd>lua vim.lsp.buf.rename()<CR>')
 
-  vim.cmd('setlocal omnifunc=v:lua.vim.lsp.omnifunc')
+  -- vim.cmd('setlocal omnifunc=v:lua.vim.lsp.omnifunc')
+
+  mapper('n', ']e', '<cmd>NextDiagnostic<CR>')
+  mapper('n', '[e', '<cmd>PrevDiagnostic<CR>')
 
   require'diagnostic'.on_attach()
 end
 
 require'nvim_lsp'.bashls.setup{ on_attach=on_attach }
+require'nvim_lsp'.tsserver.setup{ on_attach=on_attach }
+require'nvim_lsp'.jdtls.setup{
+  on_attach=on_attach
+}

@@ -6,6 +6,7 @@ function! PackInit() abort
 
 	" Additional plugins here.
 	call minpac#add('romainl/Apprentice')
+	call minpac#add('romainl/vim-cool')
 	call minpac#add('christoomey/vim-tmux-navigator')
 	call minpac#add('junegunn/fzf')
 	call minpac#add('junegunn/fzf.vim')
@@ -21,9 +22,7 @@ function! PackInit() abort
 	call minpac#add('tpope/vim-projectionist')
 	call minpac#add('neovim/nvim-lsp')
 	call minpac#add('nvim-lua/diagnostic-nvim')
-	call minpac#add('nvim-lua/popup.nvim')
-	call minpac#add('nvim-lua/plenary.nvim')
-	call minpac#add('nvim-lua/telescope.nvim')
+	call minpac#add('hauleth/asyncdo.vim')
 
 endfunction
 
@@ -43,7 +42,6 @@ set grepprg=ag\ --vimgrep
 colorscheme apprentice
 
 inoremap jk <Esc>
-" nnoremap <Space>f :lua require'telescope.builtin'.find_files{}<CR>
 nnoremap <Space>f :FZF<CR>
 nnoremap <C-]> g<C-]>
 vnoremap <C-]> g<C-]>
