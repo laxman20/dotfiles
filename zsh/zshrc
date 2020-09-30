@@ -63,3 +63,15 @@ kube-secret() {
 	kubectl get secret $(kubectl get secret | fzf --reverse --height 40% | c1) -o yaml \
 		| ag '^([ ]*)?uri:' | sed 's/^.*uri: //' | base64 -D | sed 's/:3306/:3307/'
 }
+
+gch() {
+	git checkout $(git branch -a -vv --color=always --sort=committerdate | grep -v '/HEAD\s' \
+		| fzf --height 40% --ansi --multi --tac | sed 's/^..//' | awk '{print $1}' \
+		| sed 's#^remotes/[^/]*/##')
+}
+
+services() {
+	curl -s "https://wfm-tenant-web.apps.mia.ulti.io/assets/services_export_$1.csv" \
+		| tail -n+2 | tr "," "	" | ag --no-color "$2" | column -t
+}
+
