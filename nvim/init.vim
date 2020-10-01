@@ -23,6 +23,7 @@ function! PackInit() abort
 	call minpac#add('hauleth/asyncdo.vim')
 	call minpac#add('kassio/neoterm')
 	call minpac#add('norcalli/snippets.nvim')
+	call minpac#add('nvim-treesitter/nvim-treesitter')
 
 endfunction
 
@@ -48,6 +49,14 @@ nnoremap <C-]> g<C-]>
 vnoremap <C-]> g<C-]>
 inoremap <C-f> <C-x><C-f>
 
+
+tnoremap <silent> <C-j> <C-\><C-n>:TmuxNavigateDown<CR>
+tnoremap <silent> <C-k> <C-\><C-n>:TmuxNavigateUp<CR>
+tnoremap <silent> <C-h> <C-\><C-n>:TmuxNavigateLeft<CR>
+tnoremap <silent> <C-l> <C-\><C-n>:TmuxNavigateRight<CR>
+
+let g:fzf_layout = { 'down': '40%' }
+
 tnoremap jk <C-\><C-n>
 nnoremap <Space>tt :T !!<CR>
 nnoremap <Space>tl :Tclear<CR>
@@ -65,6 +74,7 @@ augroup commands
 	autocmd BufEnter * lua require'completion'.on_attach()
 	au BufRead,BufNewFile jstags		setlocal filetype=tags
 	au TextYankPost * silent! lua vim.highlight.on_yank { higroup='IncSearch', timeout=200 }
+	autocmd BufEnter term://* startinsert
 augroup END
 
 
@@ -85,6 +95,7 @@ let g:diagnostic_insert_delay = 1
 packloadall!
 lua require'lsp'
 lua require'snippets-config'
+lua require'treesitter-config'
 
 command! Ghistory Glog -- %
 
