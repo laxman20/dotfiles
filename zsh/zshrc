@@ -40,6 +40,7 @@ export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 PROMPT='%B%F{240}%1~%f%b > '
 
 export EDITOR='nvim'
+export LESS='-S'
 
 full-join() {
 	cat <(join -t',' -a1 -o'0,1.2,2.2' <(cat "$1") <(cat "$2")) \

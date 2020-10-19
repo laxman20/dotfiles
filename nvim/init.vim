@@ -22,8 +22,12 @@ function! PackInit() abort
 	call minpac#add('nvim-lua/diagnostic-nvim')
 	call minpac#add('hauleth/asyncdo.vim')
 	call minpac#add('kassio/neoterm')
-	call minpac#add('norcalli/snippets.nvim')
 	call minpac#add('nvim-treesitter/nvim-treesitter')
+	call minpac#add('Shougo/neosnippet.vim')
+	call minpac#add('mfussenegger/nvim-jdtls')
+	call minpac#add('justinmk/vim-dirvish')
+	call minpac#add('tommcdo/vim-lion')
+	call minpac#add('tommcdo/vim-fubitive')
 
 endfunction
 
@@ -35,6 +39,7 @@ set number
 set hidden
 set tabstop=4 shiftwidth=4
 set incsearch
+set inccommand=nosplit
 set ignorecase smartcase
 set tagcase=smart
 set tags+=jstags
@@ -62,6 +67,8 @@ nnoremap <Space>tt :T !!<CR>
 nnoremap <Space>tl :Tclear<CR>
 let g:neoterm_autoscroll = 1
 
+nnoremap <silent> <Space>g :<C-u>silent grep <C-r>=expand('<cword>')<CR><CR>
+
 command! FiletypeSettings if &filetype != ""
 			\|  execute 'vsplit ~/.config/nvim/after/ftplugin/' . &filetype . '.vim'
 			\| endif
@@ -78,24 +85,33 @@ augroup commands
 augroup END
 
 
-" Use <Tab> and <S-Tab> to navigate through popup menu
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
 " Set completeopt to have a better completion experience
-set completeopt=menuone,noinsert
+set completeopt=menuone,noinsert,noselect
 
 " Avoid showing message extra message when using completion
 set shortmess+=c
 
 let g:completion_auto_change_source = 1
-let g:completion_enable_snippet = 'snippets.nvim'
+let g:completion_enable_snippet = 'Neosnippet'
 let g:diagnostic_insert_delay = 1
 
 packloadall!
 lua require'lsp'
-lua require'snippets-config'
 lua require'treesitter-config'
 
 command! Ghistory Glog -- %
 
+let g:neosnippet#disable_runtime_snippets = { '_' : 1}
+let g:neosnippet#snippets_directory = '~/.config/nvim/snippets'
+
+set conceallevel=2 concealcursor=niv
+
+imap <expr> <Tab>
+			\ neosnippet#expandable_or_jumpable() ?
+			\ "\<Plug>(neosnippet_expand_or_jump)" : "\<Tab>"
+
+smap <expr> <Tab>
+			\ neosnippet#expandable_or_jumpable() ?
+			\ "\<Plug>(neosnippet_expand_or_jump)" : "\<Tab>"
+
+let g:fubitive_domain_pattern = 'ultigit.ultimatesoftware.com'
