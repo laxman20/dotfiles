@@ -1,5 +1,4 @@
 local nvim_lsp = require'nvim_lsp'
-local configs = require'nvim_lsp/configs'
 
 local mapper = function(mode, key, result)
   vim.fn.nvim_buf_set_keymap(0, mode, key, result, { noremap = true, silent = true })
@@ -17,7 +16,7 @@ local on_attach = function()
   mapper('n', ']g', '<cmd>NextDiagnostic<CR>')
   mapper('n', '[g', '<cmd>PrevDiagnostic<CR>')
 
-  require'diagnostic'.on_attach()
+  -- causing freezes on startup using jdtls -- require'diagnostic'.on_attach()
 end
 
 nvim_lsp.bashls.setup{ on_attach=on_attach }

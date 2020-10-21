@@ -76,3 +76,9 @@ services() {
 		| tail -n+2 | tr "," "	" | ag --no-color "$2" | column -t
 }
 
+clean-psr() {
+	mv ~/Downloads/*-*-*-*-*.zip ~/Downloads/psrtests
+	mv ta-regression* ~/Downloads/psrtests
+}
+
+
