@@ -8,6 +8,8 @@ autoload -U edit-command-line
 zle -N edit-command-line
 bindkey -e
 bindkey '^x^e' edit-command-line
+zstyle ':completion:*' completer _expand_alias _complete _ignored
+zstyle ':completion:*' regular true
 
 antigen bundle zsh-users/zsh-autosuggestions
 
@@ -15,10 +17,16 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 
 antigen apply
 
-alias vim='nvim'
+set -o ignoreeof
 
+alias vim='nvim'
+alias cat='bat'
+
+alias run='./Taskfile'
+alias gs='git status'
 alias gst='git status'
 alias gdiff='git diff'
+alias gcm='git commit --no-verify -m "$(jira): '
 alias gre='git checkout -- .'
 alias c1="awk '{print \$1}'"
 alias c2="awk '{print \$2}'"
@@ -29,6 +37,9 @@ alias c6="awk '{print \$6}'"
 alias c7="awk '{print \$7}'"
 alias c8="awk '{print \$8}'"
 alias c9="awk '{print \$9}'"
+
+alias kpods='kubectl get pods'
+alias kscale='kubectl scale deploy'
 
 alias uncrustify-java='uncrustify -c $HOME/.config/uncrustify/java-uncrustify.cfg --no-backup --replace'
 
@@ -49,7 +60,7 @@ full-join() {
 }
 
 jira() {
-	git log | ag -o 'ULTI-[0-9]{6}' | head -n1
+	git log | ag -o 'PRO-[0-9]{3,}' | head -n1
 }
 
 vimscript() {
@@ -72,7 +83,7 @@ gch() {
 }
 
 services() {
-	curl -s "https://wfm-tenant-web.apps.mia.ulti.io/assets/services_export_$1.csv" \
+	curl -s "https://wfm-tenant-web.wfm-dev.dlas1.ucloud.int/assets/services_export_$1.csv" \
 		| tail -n+2 | tr "," "	" | ag --no-color "$2" | column -t
 }
 
@@ -81,4 +92,24 @@ clean-psr() {
 	mv ta-regression* ~/Downloads/psrtests
 }
 
+integration-test() {
+	mvn clean integration-test -U -Pintegrationtest -Dinclude.test.tags="$1"
+}
 
+currentmillis() {
+	gdate -d @$(  echo "($1 + 500) / 1000" | bc)
+}
+
+
+if [[ -f "$HOME/vault/client.key" && -f "$HOME/vault/client.cert" ]]; then
+	export VAULT_ADDR=https://vault-d-dc.mia.ucloud.int:8200
+	export VAULT_ROOT=secret/perception
+	export VAULT_CLIENT_KEY_PATH=~/vault/client.key
+	export VAULT_CLIENT_CERT_PATH=~/vault/client.cert
+fi
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/laxmanso/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/laxmanso/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/laxmanso/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/laxmanso/google-cloud-sdk/completion.zsh.inc'; fi

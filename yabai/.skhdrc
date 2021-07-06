@@ -1,9 +1,9 @@
 
 # focus window
-alt - H : yabai -m window --focus west
-alt - J : yabai -m window --focus south
-alt - K : yabai -m window --focus north
-alt - L : yabai -m window --focus east
+# cmd - h : yabai -m window --focus west
+# cmd - j : yabai -m window --focus south
+# cmd - k : yabai -m window --focus north
+# cmd - l : yabai -m window --focus east
 alt - n : yabai -m window --focus stack.next || yabai -m window --focus stack.first
 alt - p : yabai -m window --focus stack.prev || yabai -m window --focus stack.last
 
@@ -40,6 +40,13 @@ shift + alt - l : \
 # balance size of windows
 shift + alt - 0 : yabai -m space --balance
 
+# split stack mode
+shift + alt - s : ~/.local/bin/yabai-split-stack
+
+# stack mode
+alt - s : yabai -m config --space \
+		$(yabai -m query --spaces --space | jq '.index') layout stack
+
 # create desktop, move window and follow focus - uses jq for parsing json (brew install jq)
 shift + cmd - n : yabai -m space --create && \
                   index="$(yabai -m query --spaces --display | jq 'map(select(."native-fullscreen" == 0))[-1].index')" && \
@@ -64,7 +71,6 @@ alt - x : yabai -m space --mirror x-axis
 # toggle window split type
 alt - e : yabai -m window --toggle split
 
-alt - t : yabai -m window --stack stack.next
 
 cmd + ctrl - j : yabai -m window --focus $(yabai -m query --windows | jq 'map(select(.app == "Firefox").id)[0]')
 cmd + ctrl - k : yabai -m window --focus $(yabai -m query --windows | jq 'map(select(.app == "kitty").id)[0]')

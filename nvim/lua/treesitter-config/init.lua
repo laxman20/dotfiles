@@ -1,11 +1,11 @@
 -- TODO: disable buggy Markdown parser, remove once resolved; cf.
 -- -- https://github.com/nvim-treesitter/nvim-treesitter/issues/602
-require("nvim-treesitter.parsers").get_parser_configs().markdown = nil
+-- require("nvim-treesitter.parsers").get_parser_configs().markdown = nil
 
 require'nvim-treesitter.configs'.setup {
   ensure_installed = "all",     -- one of "all", "language", or a list of languages
   highlight = {
-    enable = true,              -- false will disable the whole extension
+    enable = false,              -- false will disable the whole extension
   },
   refactor = {
     navigation = {
