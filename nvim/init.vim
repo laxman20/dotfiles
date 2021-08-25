@@ -8,8 +8,8 @@ function! PackInit() abort
 	call minpac#add('romainl/Apprentice')
 	call minpac#add('romainl/vim-cool')
 	call minpac#add('christoomey/vim-tmux-navigator')
-	call minpac#add('junegunn/fzf')
-	call minpac#add('junegunn/fzf.vim')
+	" call minpac#add('junegunn/fzf')
+	" call minpac#add('junegunn/fzf.vim')
 	call minpac#add('editorconfig/editorconfig-vim')
 	call minpac#add('tpope/vim-surround')
 	call minpac#add('tpope/vim-commentary')
@@ -30,11 +30,13 @@ function! PackInit() abort
 
 	call minpac#add('hrsh7th/nvim-compe')
 
-	call minpac#add('kristijanhusak/orgmode.nvim')
-
-	call minpac#add('nvim-lua/popup.nvim')
 	call minpac#add('nvim-lua/plenary.nvim')
-	call minpac#add('nvim-telescope/telescope.nvim')
+	call minpac#add('vhyrro/neorg')
+	call minpac#add('vim-test/vim-test')
+
+	call minpac#add('ibhagwan/fzf-lua')
+	call minpac#add('vijaymarupudi/nvim-fzf')
+	call minpac#add('kyazdani42/nvim-web-devicons')
 
 endfunction
 
@@ -67,18 +69,14 @@ tnoremap <silent> <C-k> <C-\><C-n>:TmuxNavigateUp<CR>
 tnoremap <silent> <C-h> <C-\><C-n>:TmuxNavigateLeft<CR>
 tnoremap <silent> <C-l> <C-\><C-n>:TmuxNavigateRight<CR>
 
-" nnoremap <Space>f :FZF<CR>
-" let g:fzf_layout = { 'down': '40%' }
-
-nnoremap <Space>f <cmd>Telescope find_files<cr>
-nnoremap <Space>g <cmd>Telescope live_grep<cr>
+nnoremap <Space>f <cmd>lua require('fzf-lua').files()<CR>
+nnoremap <Space>g <cmd>lua require('fzf-lua').grep()<CR>
+nnoremap <Space>G <cmd>lua require('fzf-lua').live_grep()<CR>
 
 tnoremap jk <C-\><C-n>
 nnoremap <Space>tt :T !!<CR>
 nnoremap <Space>tl :Tclear<CR>
 let g:neoterm_autoscroll = 1
-
-nnoremap <silent> <Space>g :<C-u>silent grep <C-r>=expand('<cword>')<CR><CR>
 
 command! FiletypeSettings if &filetype != ""
 			\|  execute 'vsplit ~/.config/nvim/after/ftplugin/' . &filetype . '.vim'
@@ -99,7 +97,7 @@ augroup my_dirvish_events
       autocmd!
       autocmd FileType dirvish nnoremap <buffer> + :edit %
 	  au BufWritePre,FileWritePre * silent! call mkdir(expand('<afile>:p:h'), 'p')
-  augroup END
+augroup END
 
 " " Set completeopt to have a better completion experience
 " set completeopt=menuone,noinsert,noselect
@@ -128,14 +126,29 @@ require'compe'.setup {
     path = true;
     buffer = true;
     nvim_lsp = true;
-	orgmode = true;
+	neorg = true;
   };
 }
 
-require('orgmode').setup({
-  org_agenda_files = {'~/org-mode/**/*'}
-})
-
+require('neorg').setup {
+	-- Tell Neorg what modules to load
+	load = {
+		["core.defaults"] = {}, -- Load all the default modules
+		["core.norg.concealer"] = {}, -- Allows for use of icons
+		["core.keybinds"] = { -- Configure core.keybinds
+			config = {
+				default_keybinds = true, -- Generate the default keybinds
+			}
+		},
+		["core.norg.dirman"] = { -- Manage your directories with Neorg
+			config = {
+				workspaces = {
+					my_workspace = "~/neorg"
+				}
+			}
+		}
+	},
+}
 EOF
 
 inoremap <silent><expr> <C-Space> compe#complete()
