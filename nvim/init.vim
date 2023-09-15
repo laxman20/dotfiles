@@ -1,60 +1,4 @@
-function! PackInit() abort
-	packadd minpac
 
-	call minpac#init()
-	call minpac#add('k-takata/minpac', {'type': 'opt'})
-
-	" Additional plugins here.
-	call minpac#add('romainl/Apprentice')
-	call minpac#add('romainl/vim-cool')
-	call minpac#add('christoomey/vim-tmux-navigator')
-	" call minpac#add('junegunn/fzf')
-	" call minpac#add('junegunn/fzf.vim')
-	call minpac#add('editorconfig/editorconfig-vim')
-	call minpac#add('tpope/vim-surround')
-	call minpac#add('tpope/vim-commentary')
-	call minpac#add('tpope/vim-unimpaired')
-	call minpac#add('tpope/vim-repeat')
-	call minpac#add('tpope/vim-fugitive')
-	call minpac#add('tpope/vim-projectionist')
-	call minpac#add('neovim/nvim-lsp')
-	call minpac#add('hauleth/asyncdo.vim')
-	call minpac#add('kassio/neoterm')
-	" call minpac#add('nvim-treesitter/nvim-treesitter')
-	call minpac#add('Shougo/neosnippet.vim')
-	call minpac#add('mfussenegger/nvim-jdtls')
-	call minpac#add('justinmk/vim-dirvish')
-	call minpac#add('tommcdo/vim-lion')
-	call minpac#add('tommcdo/vim-fubitive')
-	call minpac#add('sainnhe/sonokai')
-
-	call minpac#add('hrsh7th/nvim-compe')
-
-	call minpac#add('nvim-lua/plenary.nvim')
-	call minpac#add('vhyrro/neorg')
-	call minpac#add('vim-test/vim-test')
-
-	call minpac#add('ibhagwan/fzf-lua')
-	call minpac#add('vijaymarupudi/nvim-fzf')
-	call minpac#add('kyazdani42/nvim-web-devicons')
-
-endfunction
-
-command! PackUpdate source $MYVIMRC | call PackInit() | call minpac#update()
-command! PackClean  source $MYVIMRC | call PackInit() | call minpac#clean()
-command! PackStatus packadd minpac | call minpac#status()
-
-set number
-set hidden
-set tabstop=4 shiftwidth=4
-set incsearch
-set inccommand=nosplit
-set ignorecase smartcase
-set tagcase=smart
-set tags+=jstags
-set grepprg=ag\ --vimgrep
-set splitright splitbelow
-set cursorline
 inoremap jk <Esc>
 nnoremap <C-]> g<C-]>
 vnoremap <C-]> g<C-]>
@@ -87,96 +31,173 @@ command! Snippets edit ~/.config/nvim/lua/snippets-config/init.lua
 
 augroup commands
 	autocmd!
-	" autocmd BufEnter * lua require'completion'.on_attach()
-	au BufRead,BufNewFile jstags		setlocal filetype=tags
 	au TextYankPost * silent! lua vim.highlight.on_yank { higroup='IncSearch', timeout=200 }
 	autocmd BufEnter term://* startinsert
+
+	autocmd FileType dirvish nnoremap <buffer> + :edit %
+	au BufWritePre,FileWritePre * silent! call mkdir(expand('<afile>:p:h'), 'p')
 augroup END
 
-augroup my_dirvish_events
-      autocmd!
-      autocmd FileType dirvish nnoremap <buffer> + :edit %
-	  au BufWritePre,FileWritePre * silent! call mkdir(expand('<afile>:p:h'), 'p')
-augroup END
-
-" " Set completeopt to have a better completion experience
-" set completeopt=menuone,noinsert,noselect
-
-" " Avoid showing message extra message when using completion
-" set shortmess+=c
-
-" let g:completion_auto_change_source = 1
-" let g:completion_enable_snippet = 'Neosnippet'
 let g:diagnostic_insert_delay = 1
 
-packloadall!
-lua require'lsp'
-" lua require'treesitter-config'
-
-set completeopt=menu,menuone,noselect
-
 lua <<EOF
-require'compe'.setup {
-  enabled = true;
-  debug = false;
-  min_length = 1;
-  allow_prefix_unmatch = false;
+-- Install package manager
+local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
+if not vim.loop.fs_stat(lazypath) then
+	vim.fn.system { 'git', 'clone', '--filter=blob:none', 'https://github.com/folke/lazy.nvim.git', '--branch=stable', lazypath }
+end
+vim.opt.rtp:prepend(lazypath)
 
-  source = {
-    path = true;
-    buffer = true;
-    nvim_lsp = true;
-	neorg = true;
-  };
-}
+require('lazy').setup({
+'NoahTheDuke/vim-just',
+'romainl/Apprentice',
+'navarasu/onedark.nvim',
+'romainl/vim-cool',
+'christoomey/vim-tmux-navigator',
+'editorconfig/editorconfig-vim',
+'tpope/vim-surround',
+'tpope/vim-commentary',
+'tpope/vim-unimpaired',
+'tpope/vim-repeat',
+'tpope/vim-fugitive',
+'tpope/vim-projectionist',
+'neovim/nvim-lsp',
+'hauleth/asyncdo.vim',
+'kassio/neoterm',
+'mfussenegger/nvim-jdtls',
+'stevearc/oil.nvim',
+'tommcdo/vim-lion',
+'sainnhe/sonokai',
+'Vimjas/vim-python-pep8-indent',
 
-require('neorg').setup {
-	-- Tell Neorg what modules to load
-	load = {
-		["core.defaults"] = {}, -- Load all the default modules
-		["core.norg.concealer"] = {}, -- Allows for use of icons
-		["core.keybinds"] = { -- Configure core.keybinds
-			config = {
-				default_keybinds = true, -- Generate the default keybinds
-			}
-		},
-		["core.norg.dirman"] = { -- Manage your directories with Neorg
+'hrsh7th/nvim-compe',
+
+'nvim-lua/plenary.nvim',
+'vim-test/vim-test',
+
+'ibhagwan/fzf-lua',
+'vijaymarupudi/nvim-fzf',
+'kyazdani42/nvim-web-devicons',
+
+'sbdchd/neoformat',
+
+'gbprod/substitute.nvim',
+'Lilja/zellij.nvim',
+
+'williamboman/mason.nvim',
+
+{'nvim-treesitter/nvim-treesitter',
+	build = ':TSUpdate',
+	config = function () 
+	local configs = require("nvim-treesitter.configs")
+
+	configs.setup({
+	ensure_installed = {"norg", "json", "java", "lua"},     -- one of "all", "language", or a list of languages
+	highlight = {
+		enable = true
+	}
+	})
+	end
+},
+{ 'nvim-neorg/neorg',
+	build = ':Neorg sync-parsers',
+	dependencies = { "nvim-lua/plenary.nvim" },
+	config = function()
+
+	require('neorg').setup {
+		load = {
+			["core.defaults"] = {}, -- Loads default behaviour
+			["core.concealer"] = {
+				config = {
+					icon_preset = "diamond"
+				} -- Adds pretty icons to your documents
+			},
+			["core.dirman"] = { -- Manages Neorg workspaces
 			config = {
 				workspaces = {
-					my_workspace = "~/neorg"
-				}
-			}
-		}
-	},
+					notes = "~/norg",
+				},
+				default_workspace = "notes"
+			},
+			},
+			["core.itero"] = {},
+			["core.promo"] = {},
+			["core.summary"] = {},
+			["core.export"] = {},
+		},
+	}
+	end
+},
+}, {})
+require'onedark'.setup {
+	style = 'warmer'
 }
+require'onedark'.load()
+vim.wo.number = true
+vim.o.hidden = true
+vim.o.incsearch = true
+vim.o.inccommand = 'nosplit'
+vim.o.ignorecase = true
+vim.o.smartcase = true
+vim.o.tagcase = 'smart'
+vim.o.grepprg = 'rg --vimgrep --no-heading --smart-case'
+vim.o.splitright = true
+vim.o.splitbelow = true
+vim.o.cursorline = true
+vim.o.clipboard = 'unnamedplus'
+vim.o.completeopt = 'menu,menuone,noselect'
+
+
+require'compe'.setup {
+	enabled = true;
+	debug = false;
+	min_length = 1;
+	allow_prefix_unmatch = false;
+
+	source = {
+		path = true;
+		buffer = true;
+		nvim_lsp = true;
+	};
+}
+
+require'substitute'.setup({})
+
+vim.keymap.set("n", "s", require('substitute').operator, { noremap = true })
+vim.keymap.set("n", "ss", require('substitute').line, { noremap = true })
+vim.keymap.set("n", "S", require('substitute').eol, { noremap = true })
+vim.keymap.set("x", "s", require('substitute').visual, { noremap = true })
+
+require('zellij').setup({})
+vim.keymap.set('n', '<A-h>', "<cmd>ZellijNavigateLeft<cr>")
+vim.keymap.set('n', '<A-j>', "<cmd>ZellijNavigateDown<cr>")
+vim.keymap.set('n', '<A-k>', "<cmd>ZellijNavigateUp<cr>")
+vim.keymap.set('n', '<A-l>', "<cmd>ZellijNavigateRight<cr>")
+
+require('mason').setup({})
+
+
+require("oil").setup()
+vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 EOF
 
+lua require'lsp'
+
+
+" vim-compe
+"
 inoremap <silent><expr> <C-Space> compe#complete()
 inoremap <silent><expr> <CR>      compe#confirm('<CR>')
 inoremap <silent><expr> <C-e>     compe#close('<C-e>')
 
+
 command! Ghistory Glog -- %
 
-let g:neosnippet#disable_runtime_snippets = { '_' : 1}
-let g:neosnippet#snippets_directory = '~/.config/nvim/snippets'
-
-set conceallevel=0 concealcursor=niv
-
-imap <expr> <Tab>
-			\ neosnippet#expandable_or_jumpable() ?
-			\ "\<Plug>(neosnippet_expand_or_jump)" : "\<Tab>"
-
-smap <expr> <Tab>
-			\ neosnippet#expandable_or_jumpable() ?
-			\ "\<Plug>(neosnippet_expand_or_jump)" : "\<Tab>"
-
-let g:fubitive_domain_pattern = 'ultigit.ultimatesoftware.com'
+let g:fugitive_domain_pattern = 'engstash.int.kronos.com'
 
 if has('termguicolors')
 	set termguicolors
 endif
 
-let g:sonokai_style = 'shusia'
-
-colorscheme sonokai
+let g:neoformat_try_node_exe = 1
 

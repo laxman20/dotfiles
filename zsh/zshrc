@@ -3,6 +3,7 @@
 
 fpath=(~/.config/zsh/completions $fpath)
 
+
 autoload -Uz compinit && compinit
 autoload -U edit-command-line
 zle -N edit-command-line
@@ -20,15 +21,20 @@ antigen apply
 set -o ignoreeof
 
 alias vim='nvim'
+alias norg='nvim -c "Neorg index"'
 alias cat='bat'
 alias todo='todo-go'
+alias iced='~/.config/nvim/pack/minpac/start/vim-iced/bin/iced'
 
-alias run='./Taskfile'
+alias task='./Taskfile'
 alias gs='git status'
 alias gst='git status'
+alias gclean='git clean -f -d -x'
 alias gdiff='git diff'
-alias gcm='git commit --no-verify -m "$(jira): '
+alias gcm='git commit -m "$(jira): '
+alias gprune="git fetch -p && git branch -vv | grep 'origin/.*: gone]' | c1 | xargs git branch -d"
 alias gre='git checkout -- .'
+alias jd='java -jar ~/dev/jd-gui-1.6.6.jar'
 alias c1="awk '{print \$1}'"
 alias c2="awk '{print \$2}'"
 alias c3="awk '{print \$3}'"
@@ -40,7 +46,11 @@ alias c8="awk '{print \$8}'"
 alias c9="awk '{print \$9}'"
 
 alias kpods='kubectl get pods'
-alias kscale='kubectl scale deploy'
+alias kdeploy='kubectl get deploy | tail -n+2 | c1 | fzf | pbcopy'
+alias kscale='kubectl scale deploy $(kubectl get deploy | tail -n+2 | c1 | fzf)'
+alias ksh='kubectl exec -it $(kubectl get pods | tail -n+2 | fzf | c1) sh'
+alias dockersh='docker exec -it $(docker ps | tail -n+2 | fzf | c1) sh'
+alias dockerkill='docker kill $(docker ps -q)'
 
 alias uncrustify-java='uncrustify -c $HOME/.config/uncrustify/java-uncrustify.cfg --no-backup --replace'
 
@@ -51,8 +61,13 @@ export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 
 PROMPT='%B%F{240}%1~%f%b > '
 
+export PATH=$HOME/.node/bin:$HOME/.local/bin:$PATH
+export PATH=/usr/local/opt/gnu-sed/libexec/gnubin:$PATH
+
 export EDITOR='nvim'
-export LESS='-S'
+export LESS=eFRX
+
+export CLOUDSDK_PYTHON=$(which python3.9)
 
 full-join() {
 	cat <(join -t',' -a1 -o'0,1.2,2.2' <(cat "$1") <(cat "$2")) \
@@ -61,7 +76,7 @@ full-join() {
 }
 
 jira() {
-	git log | ag -o 'PRO-[0-9]{3,}' | head -n1
+	git rev-parse --abbrev-ref HEAD | rg -o '(PRO|DIM)-\d{5,6}'
 }
 
 vimscript() {
@@ -75,6 +90,10 @@ chenv() {
 kube-secret() {
 	kubectl get secret $(kubectl get secret | fzf --reverse --height 40% | c1) -o yaml \
 		| ag '^([ ]*)?uri:' | sed 's/^.*uri: //' | base64 -D | sed 's/:3306/:3307/'
+}
+
+kcontext() {
+	kubectl config set-context --current --namespace=$1
 }
 
 gch() {
@@ -101,6 +120,16 @@ currentmillis() {
 	gdate -d @$(  echo "($1 + 500) / 1000" | bc)
 }
 
+port-kill() {
+	kill $(lsof -t -i:$1)
+}
+
+klogs() {
+	POD=$(kubectl get pods | tail -n+2 | c1 | fzf)
+	CONTAINER=${POD:0:-17}
+	kubectl logs -f $POD $CONTAINER
+}
+
 
 if [[ -f "$HOME/vault/client.key" && -f "$HOME/vault/client.cert" ]]; then
 	export VAULT_ADDR=https://vault-d-dc.mia.ucloud.int:8200
@@ -111,13 +140,36 @@ if [[ -f "$HOME/vault/client.key" && -f "$HOME/vault/client.cert" ]]; then
 	alias vault-login="vault login -method=cert -client-cert=$VAULT_CLIENT_CERT_PATH -client-key=$VAULT_CLIENT_KEY_PATH"
 fi
 
+export SHELL=/bin/zsh
+export PATH=$HOME/.local/bin/homebrew/opt/mongodb-community@4.0/bin:$PATH
+export PATH=$HOME/go/bin:$PATH
+export PATH="/usr/local/opt/maven@3.5/bin:$PATH"
+export PATH="/usr/local/opt/kafka/bin:$PATH"
+
+export PIPENV_VENV_IN_PROJECT=1
+export N_PREFIX=$HOME/.node
+export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
+
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/laxmanso/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/laxmanso/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/laxmanso/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/laxmanso/google-cloud-sdk/completion.zsh.inc'; fi
 
-export PATH=$HOME/.local/bin/homebrew/opt/mongodb-community@4.0/bin:$PATH
-export PATH=$HOME/go/bin:$PATH
-export CLOUDSDK_CORE_PROJECT=d-ulti-hcm-ev-9561 
-export PIPENV_VENV_IN_PROJECT=1
+taskinit() {
+	if [ -f './Taskfile' ]; then
+		echo 'Taskfile already exists'
+	else
+		cat <<'eos' > Taskfile
+#!/bin/bash
+
+source ~/.config/task/Taskfile
+
+$@
+eos
+chmod +x ./Taskfile
+	fi
+}
+
+export PATH="$HOME/.jenv/bin:$PATH"
+eval "$(jenv init -)"
