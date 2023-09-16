@@ -1,4 +1,5 @@
 local nvim_lsp = require'lspconfig'
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 local mapper = function(mode, key, result)
   vim.api.nvim_buf_set_keymap(0, mode, key, result, { noremap = true, silent = true })
@@ -23,6 +24,8 @@ local on_attach = function()
 end
 
 nvim_lsp.efm.setup{
+  on_attach=on_attach,
+  capabilities=capabilities,
   init_options = {documentFormatting = true},
   filetypes = {"sh"},
   settings = {
@@ -35,15 +38,16 @@ nvim_lsp.efm.setup{
   }
 }
 
-nvim_lsp.bashls.setup{ on_attach=on_attach }
-nvim_lsp.tsserver.setup{ on_attach=on_attach }
-nvim_lsp.angularls.setup{ on_attach=on_attach }
+nvim_lsp.bashls.setup{ on_attach=on_attach, capabilities=capabilities }
+nvim_lsp.tsserver.setup{ on_attach=on_attach, capabilities=capabilities }
+nvim_lsp.angularls.setup{ on_attach=on_attach, capabilities=capabilities }
 
 local project_library_path = "./node_nodules"
 local cmd = {"ngserver", "--stdio", "--tsProbeLocations", project_library_path , "--ngProbeLocations", project_library_path}
 
 nvim_lsp.angularls.setup{
   on_attach=on_attach,
+  capabilities=capabilities,
   cmd = cmd,
   on_new_config = function(new_config,new_root_dir)
     new_config.cmd = cmd
@@ -51,6 +55,7 @@ nvim_lsp.angularls.setup{
 }
 nvim_lsp.pyright.setup{ 
   on_attach=on_attach,
+  capabilities=capabilities,
   -- before_init = function(_, config)
   --   config.settings.python.pythonPath = 'docker/2.7/.venv/bin/python'
   -- end
@@ -136,7 +141,8 @@ function setup_java()
     on_attach = function()
       on_attach()
       mapper('n', '<A-o>', '<cmd>lua require"jdtls".organize_imports()<CR>')
-    end
+    end,
+    capabilities=capabilities
   }
   -- This starts a new client & server,
   -- or attaches to an existing client & server depending on the `root_dir`.

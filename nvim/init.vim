@@ -34,7 +34,6 @@ augroup commands
 	au TextYankPost * silent! lua vim.highlight.on_yank { higroup='IncSearch', timeout=200 }
 	autocmd BufEnter term://* startinsert
 
-	autocmd FileType dirvish nnoremap <buffer> + :edit %
 	au BufWritePre,FileWritePre * silent! call mkdir(expand('<afile>:p:h'), 'p')
 augroup END
 
@@ -50,9 +49,16 @@ vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
 'NoahTheDuke/vim-just',
-'romainl/Apprentice',
-'navarasu/onedark.nvim',
-'romainl/vim-cool',
+{ 'navarasu/onedark.nvim', 
+	lazy = false,
+	config = function(_, opts)
+		require("onedark").setup(opts)
+		require'onedark'.load()
+	end,
+	opts = {
+		style = "warmer"
+	}
+	},
 'christoomey/vim-tmux-navigator',
 'editorconfig/editorconfig-vim',
 'tpope/vim-surround',
@@ -65,14 +71,11 @@ require('lazy').setup({
 'hauleth/asyncdo.vim',
 'kassio/neoterm',
 'mfussenegger/nvim-jdtls',
-'stevearc/oil.nvim',
+{'stevearc/oil.nvim', opts = {}},
 'tommcdo/vim-lion',
 'sainnhe/sonokai',
 'Vimjas/vim-python-pep8-indent',
 
-'hrsh7th/nvim-compe',
-
-'nvim-lua/plenary.nvim',
 'vim-test/vim-test',
 
 'ibhagwan/fzf-lua',
@@ -81,30 +84,28 @@ require('lazy').setup({
 
 'sbdchd/neoformat',
 
-'gbprod/substitute.nvim',
-'Lilja/zellij.nvim',
+{'gbprod/substitute.nvim', opts = {}},
+{'Lilja/zellij.nvim', opts = {}},
 
-'williamboman/mason.nvim',
+{'williamboman/mason.nvim', opts = {}},
 
 {'nvim-treesitter/nvim-treesitter',
 	build = ':TSUpdate',
-	config = function () 
-	local configs = require("nvim-treesitter.configs")
-
-	configs.setup({
-	ensure_installed = {"norg", "json", "java", "lua"},     -- one of "all", "language", or a list of languages
-	highlight = {
-		enable = true
+	config = function(_, opts) 
+		local configs = require("nvim-treesitter.configs")
+		configs.setup(opts)
+	end,
+	opts = {
+		ensure_installed = {"norg", "json", "java", "lua"},     -- one of "all", "language", or a list of languages
+		highlight = {
+			enable = true
+		}
 	}
-	})
-	end
 },
 { 'nvim-neorg/neorg',
 	build = ':Neorg sync-parsers',
 	dependencies = { "nvim-lua/plenary.nvim" },
-	config = function()
-
-	require('neorg').setup {
+	opts = {
 		load = {
 			["core.defaults"] = {}, -- Loads default behaviour
 			["core.concealer"] = {
@@ -124,15 +125,48 @@ require('lazy').setup({
 			["core.promo"] = {},
 			["core.summary"] = {},
 			["core.export"] = {},
+			["core.completion"] = {
+				config  = {
+					engine = "nvim-cmp"
+				},
+			},
 		},
 	}
-	end
 },
-}, {})
-require'onedark'.setup {
-	style = 'warmer'
+{ "hrsh7th/nvim-cmp",
+	dependencies = {
+		"hrsh7th/cmp-nvim-lsp",
+		"hrsh7th/cmp-buffer",
+		"L3MON4D3/LuaSnip",
+		"saadparwaiz1/cmp_luasnip"
+	},
+	config = function()
+		local cmp = require("cmp")
+		cmp.setup({
+			snippet = {
+				expand = function(args)
+					require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+				end,
+			},
+			mapping = cmp.mapping.preset.insert({
+				['<C-b>'] = cmp.mapping.scroll_docs(-4),
+				['<C-f>'] = cmp.mapping.scroll_docs(4),
+				['<C-Space>'] = cmp.mapping.complete(),
+				['<C-e>'] = cmp.mapping.abort(),
+				['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+			}),
+			sources = cmp.config.sources({
+				{ name = 'nvim_lsp' },
+				{ name = 'luasnip' }, -- For luasnip users.
+				{ name = 'neorg' },
+			}, {
+				{ name = 'buffer' },
+			})
+		})
+	end
 }
-require'onedark'.load()
+}, {})
+
 vim.wo.number = true
 vim.o.hidden = true
 vim.o.incsearch = true
@@ -145,51 +179,22 @@ vim.o.splitright = true
 vim.o.splitbelow = true
 vim.o.cursorline = true
 vim.o.clipboard = 'unnamedplus'
-vim.o.completeopt = 'menu,menuone,noselect'
-
-
-require'compe'.setup {
-	enabled = true;
-	debug = false;
-	min_length = 1;
-	allow_prefix_unmatch = false;
-
-	source = {
-		path = true;
-		buffer = true;
-		nvim_lsp = true;
-	};
-}
-
-require'substitute'.setup({})
+vim.o.completeopt = 'menuone,noselect'
 
 vim.keymap.set("n", "s", require('substitute').operator, { noremap = true })
 vim.keymap.set("n", "ss", require('substitute').line, { noremap = true })
 vim.keymap.set("n", "S", require('substitute').eol, { noremap = true })
 vim.keymap.set("x", "s", require('substitute').visual, { noremap = true })
 
-require('zellij').setup({})
 vim.keymap.set('n', '<A-h>', "<cmd>ZellijNavigateLeft<cr>")
 vim.keymap.set('n', '<A-j>', "<cmd>ZellijNavigateDown<cr>")
 vim.keymap.set('n', '<A-k>', "<cmd>ZellijNavigateUp<cr>")
 vim.keymap.set('n', '<A-l>', "<cmd>ZellijNavigateRight<cr>")
 
-require('mason').setup({})
-
-
-require("oil").setup()
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+
+require("lsp")
 EOF
-
-lua require'lsp'
-
-
-" vim-compe
-"
-inoremap <silent><expr> <C-Space> compe#complete()
-inoremap <silent><expr> <CR>      compe#confirm('<CR>')
-inoremap <silent><expr> <C-e>     compe#close('<C-e>')
-
 
 command! Ghistory Glog -- %
 
