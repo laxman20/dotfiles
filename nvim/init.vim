@@ -96,15 +96,20 @@ require('lazy').setup({
 		configs.setup(opts)
 	end,
 	opts = {
-		ensure_installed = {"norg", "json", "java", "lua"},     -- one of "all", "language", or a list of languages
+		ensure_installed = {"norg", "json", "java", "lua", "vim"},     -- one of "all", "language", or a list of languages
 		highlight = {
 			enable = true
-		}
+		},
+		indent = {
+			enable = true
+		},
 	}
 },
 { 'nvim-neorg/neorg',
 	build = ':Neorg sync-parsers',
 	dependencies = { "nvim-lua/plenary.nvim" },
+	cmd = "Neorg",
+	ft = "norg",
 	opts = {
 		load = {
 			["core.defaults"] = {}, -- Loads default behaviour
@@ -134,6 +139,7 @@ require('lazy').setup({
 	}
 },
 { "hrsh7th/nvim-cmp",
+	event = "InsertEnter",
 	dependencies = {
 		"hrsh7th/cmp-nvim-lsp",
 		"hrsh7th/cmp-buffer",

@@ -1,4 +1,5 @@
 local nvim_lsp = require'lspconfig'
+
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 local mapper = function(mode, key, result)
@@ -7,7 +8,6 @@ end
 
 local on_attach = function()
   print('Starting LSP Server')
-  print(vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t'))
   mapper('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
   mapper('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>')
   mapper('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>')
