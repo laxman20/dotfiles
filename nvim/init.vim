@@ -18,10 +18,6 @@ nnoremap <Space>g <cmd>lua require('fzf-lua').grep()<CR>
 nnoremap <Space>G <cmd>lua require('fzf-lua').live_grep()<CR>
 
 tnoremap jk <C-\><C-n>
-nnoremap <Space>tt :T !!<CR>
-nnoremap <Space>tl :Tclear<CR>
-let g:neoterm_autoscroll = 1
-
 command! FiletypeSettings if &filetype != ""
 			\|  execute 'vsplit ~/.config/nvim/after/ftplugin/' . &filetype . '.vim'
 			\| endif
@@ -59,34 +55,41 @@ require('lazy').setup({
 		style = "warmer"
 	}
 	},
-'christoomey/vim-tmux-navigator',
+{'christoomey/vim-tmux-navigator',
+	enabled = function()
+	return vim.fn.executable('tmux') == 1
+	end
+},
 'editorconfig/editorconfig-vim',
 'tpope/vim-surround',
 'tpope/vim-commentary',
 'tpope/vim-unimpaired',
 'tpope/vim-repeat',
 'tpope/vim-fugitive',
-'tpope/vim-projectionist',
 'neovim/nvim-lsp',
-'hauleth/asyncdo.vim',
-'kassio/neoterm',
 'mfussenegger/nvim-jdtls',
 {'stevearc/oil.nvim', opts = {}},
 'tommcdo/vim-lion',
-'sainnhe/sonokai',
 'Vimjas/vim-python-pep8-indent',
 
 'vim-test/vim-test',
 
-'ibhagwan/fzf-lua',
-'vijaymarupudi/nvim-fzf',
-'kyazdani42/nvim-web-devicons',
+{'ibhagwan/fzf-lua',
+	enabled = function()
+	return vim.fn.executable('fzf') == 1 and vim.fn.has('win32') == 0
+	end
+},
+{'vijaymarupudi/nvim-fzf', lazy = true},
+{'kyazdani42/nvim-web-devicons', lazy = true},
 
-'sbdchd/neoformat',
 
 {'gbprod/substitute.nvim', opts = {}},
-{'Lilja/zellij.nvim', opts = {}},
-
+{'Lilja/zellij.nvim', 
+	enabled = function()
+	return vim.fn.executable('zellij') == 1
+	end,
+	opts = {},
+},
 {'williamboman/mason.nvim', opts = {}},
 
 {'nvim-treesitter/nvim-treesitter',
@@ -210,5 +213,4 @@ if has('termguicolors')
 	set termguicolors
 endif
 
-let g:neoformat_try_node_exe = 1
 
