@@ -13,7 +13,13 @@ return {
 	{'christoomey/vim-tmux-navigator',
 		enabled = function()
 			return vim.fn.executable('tmux') == 1
-		end
+		end,
+		config = function()
+			vim.keymap.set("t", "<C-j>", "<cmd><C-\\><C-n>:TmuxNavigateDown<cr>", { noremap = true, silent = true })
+			vim.keymap.set("t", "<C-k>", "<cmd><C-\\><C-n>:TmuxNavigateUp<cr>", { noremap = true, silent = true })
+			vim.keymap.set("t", "<C-h>", "<cmd><C-\\><C-n>:TmuxNavigateLeft<cr>", { noremap = true, silent = true })
+			vim.keymap.set("t", "<C-l>", "<cmd><C-\\><C-n>:TmuxNavigateRight<cr>", { noremap = true, silent = true })
+		end,
 	},
 	'editorconfig/editorconfig-vim',
 	'tpope/vim-surround',

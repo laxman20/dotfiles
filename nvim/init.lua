@@ -28,31 +28,16 @@ end
 
 vim.api.nvim_create_user_command("Ghistory", "Gllog -- %", {})
 
+vim.keymap.set("i", "jk", "<Esc>", { noremap = true })
+vim.keymap.set("i", "<C-f>", "<C-x><C-f>", { noremap = true })
+vim.keymap.set("t", "jk", "<C-\\><C-n>", { noremap = true })
+
+local mygroup = vim.api.nvim_create_augroup("commands", { clear = true })
+vim.api.nvim_create_autocmd({ "TextYankPost" }, {
+	group = mygroup,
+	callback = function()
+		vim.highlight.on_yank { higroup="IncSearch", timeout=200 }
+	end
+})
+
 require("lsp")
-
-vim.cmd [[
-
-inoremap jk <Esc>
-nnoremap <C-]> g<C-]>
-vnoremap <C-]> g<C-]>
-inoremap <C-f> <C-x><C-f>
-
-
-nnoremap gV ggVG
-
-
-tnoremap <silent> <C-j> <C-\><C-n>:TmuxNavigateDown<CR>
-tnoremap <silent> <C-k> <C-\><C-n>:TmuxNavigateUp<CR>
-tnoremap <silent> <C-h> <C-\><C-n>:TmuxNavigateLeft<CR>
-tnoremap <silent> <C-l> <C-\><C-n>:TmuxNavigateRight<CR>
-
-tnoremap jk <C-\><C-n>
-augroup commands
-	autocmd!
-	au TextYankPost * silent! lua vim.highlight.on_yank { higroup='IncSearch', timeout=200 }
-	autocmd BufEnter term://* startinsert
-
-	au BufWritePre,FileWritePre * silent! call mkdir(expand('<afile>:p:h'), 'p')
-augroup END
-
-]]

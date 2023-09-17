@@ -7,4 +7,6 @@ config.window_padding = {
   bottom = 0,
 }
 
+config.color_scheme = 'OneDark (base16)'
+
 return config
