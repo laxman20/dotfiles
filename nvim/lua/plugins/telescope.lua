@@ -10,4 +10,9 @@ return {
 		{ "<Space>fg", "<cmd>lua require('telescope.builtin').live_grep()<cr>"},
 
 	},
+	config = function()
+		local telescope = require("telescope")
+		telescope.setup({})
+		telescope.load_extension("fzf")
+	end
 }
