@@ -23,7 +23,6 @@ return {
 	},
 	'editorconfig/editorconfig-vim',
 	'tpope/vim-surround',
-	'tpope/vim-commentary',
 	'tpope/vim-unimpaired',
 	'tpope/vim-repeat',
 	'tpope/vim-fugitive',
