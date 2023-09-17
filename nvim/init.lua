@@ -46,10 +46,6 @@ tnoremap <silent> <C-k> <C-\><C-n>:TmuxNavigateUp<CR>
 tnoremap <silent> <C-h> <C-\><C-n>:TmuxNavigateLeft<CR>
 tnoremap <silent> <C-l> <C-\><C-n>:TmuxNavigateRight<CR>
 
-nnoremap <Space>f <cmd>lua require('fzf-lua').files()<CR>
-nnoremap <Space>g <cmd>lua require('fzf-lua').grep()<CR>
-nnoremap <Space>G <cmd>lua require('fzf-lua').live_grep()<CR>
-
 tnoremap jk <C-\><C-n>
 augroup commands
 	autocmd!

@@ -26,12 +26,6 @@ return {
 	'tommcdo/vim-lion',
 	'Vimjas/vim-python-pep8-indent',
 	'vim-test/vim-test',
-	{'ibhagwan/fzf-lua',
-		enabled = function()
-			return vim.fn.executable('fzf') == 1 and vim.fn.has('win32') == 0
-		end
-	},
-	{'vijaymarupudi/nvim-fzf', lazy = true},
 	{'kyazdani42/nvim-web-devicons', lazy = true},
 	{'gbprod/substitute.nvim',
 		config = function()
