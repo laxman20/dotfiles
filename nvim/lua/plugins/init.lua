@@ -26,6 +26,11 @@ return {
 	'tpope/vim-unimpaired',
 	'tpope/vim-repeat',
 	'tpope/vim-fugitive',
+	{ 'tommcdo/vim-fubitive',
+		init = function()
+			vim.g.fubitive_domain_pattern = 'engstash.int.kronos.com'
+		end,
+	},
 	'neovim/nvim-lsp',
 	'mfussenegger/nvim-jdtls',
 	'tommcdo/vim-lion',
