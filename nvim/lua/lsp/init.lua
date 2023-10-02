@@ -1,3 +1,4 @@
+local M = {}
 local nvim_lsp = require'lspconfig'
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
@@ -149,11 +150,6 @@ function setup_java()
   require('jdtls').start_or_attach(config)
 end
 
-vim.api.nvim_command('augroup lsp')
-vim.api.nvim_command('au!')
-vim.api.nvim_command("au FileType java lua setup_java()")
-vim.api.nvim_command('augroup END')
-
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 vim.lsp.diagnostic.on_publish_diagnostics, {
   virtual_text = false,
@@ -161,3 +157,6 @@ vim.lsp.diagnostic.on_publish_diagnostics, {
   signs = true,
 }
 )
+
+M.setup_java = setup_java
+return M
