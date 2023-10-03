@@ -24,21 +24,6 @@ local on_attach = function()
 
 end
 
-nvim_lsp.efm.setup{
-  on_attach=on_attach,
-  capabilities=capabilities,
-  init_options = {documentFormatting = true},
-  filetypes = {"sh"},
-  settings = {
-    rootMarkers = {".git/"},
-    languages = {
-      sh = {
-        {lintCommand = 'shellcheck -f gcc -x', lintSource = 'shellcheck', lintFormats= {'%f:%l:%c: %trror: %m', '%f:%l:%c: %tarning: %m', '%f:%l:%c: %tote: %m'}}
-      }
-    }
-  }
-}
-
 nvim_lsp.bashls.setup{ on_attach=on_attach, capabilities=capabilities }
 nvim_lsp.tsserver.setup{ on_attach=on_attach, capabilities=capabilities }
 nvim_lsp.angularls.setup{ on_attach=on_attach, capabilities=capabilities }
