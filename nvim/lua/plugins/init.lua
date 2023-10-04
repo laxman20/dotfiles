@@ -59,5 +59,5 @@ return {
 		end,
 	},
 	{'williamboman/mason.nvim', config = true},
-
+	{ 'wellle/targets.vim' },
 }
