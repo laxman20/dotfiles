@@ -21,11 +21,11 @@ return {
 			vim.keymap.set("t", "<C-l>", "<cmd><C-\\><C-n>:TmuxNavigateRight<cr>", { noremap = true, silent = true })
 		end,
 	},
-	'editorconfig/editorconfig-vim',
 	'tpope/vim-surround',
 	'tpope/vim-unimpaired',
 	'tpope/vim-repeat',
 	'tpope/vim-fugitive',
+	'tpope/vim-sleuth',
 	{ 'tommcdo/vim-fubitive',
 		init = function()
 			vim.g.fubitive_domain_pattern = 'engstash.int.kronos.com'
