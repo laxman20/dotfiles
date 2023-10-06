@@ -11,7 +11,7 @@ return {
 		}
 	},
 	{'christoomey/vim-tmux-navigator',
-		enabled = function()
+		cond = function()
 			return vim.fn.executable('tmux') == 1
 		end,
 		config = function()
@@ -31,7 +31,6 @@ return {
 			vim.g.fubitive_domain_pattern = 'engstash.int.kronos.com'
 		end,
 	},
-	'neovim/nvim-lsp',
 	'mfussenegger/nvim-jdtls',
 	'tommcdo/vim-lion',
 	'Vimjas/vim-python-pep8-indent',
@@ -47,7 +46,7 @@ return {
 		end,
 	},
 	{'Lilja/zellij.nvim', 
-		enabled = function()
+		cond = function()
 			return vim.fn.executable('zellij') == 1
 		end,
 		config = function()
@@ -58,6 +57,5 @@ return {
 			vim.keymap.set('n', '<A-l>', "<cmd>ZellijNavigateRight<cr>")
 		end,
 	},
-	{'williamboman/mason.nvim', config = true},
 	{ 'wellle/targets.vim' },
 }
