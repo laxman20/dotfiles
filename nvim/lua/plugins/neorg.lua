@@ -19,6 +19,11 @@ return { 'nvim-neorg/neorg',
 					default_workspace = "notes"
 				},
 			},
+			["core.esupports.metagen"] = {
+				config = {
+					type = "auto",
+				},
+			},
 			["core.itero"] = {},
 			["core.promo"] = {},
 			["core.summary"] = {},
