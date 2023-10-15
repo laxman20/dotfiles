@@ -63,6 +63,7 @@ PROMPT='%B%F{240}%1~%f%b > '
 
 export PATH=$HOME/.node/bin:$HOME/.local/bin:$PATH
 export PATH=/usr/local/opt/gnu-sed/libexec/gnubin:$PATH
+export PATH=/usr/local/opt/libpq/bin:$PATH
 
 export EDITOR='nvim'
 export LESS=eFRX
