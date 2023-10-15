@@ -62,6 +62,8 @@ config.keys = {
 	-- splits
 	{ key = '|', mods = 'SUPER', action = w.action.SplitHorizontal { domain = 'CurrentPaneDomain' }},
 	{ key = '_', mods = 'SUPER', action = w.action.SplitVertical { domain = 'CurrentPaneDomain' }},
+	{ key = '|', mods = 'SHIFT|SUPER', action = w.action.SplitHorizontal { domain = 'CurrentPaneDomain' }},
+	{ key = '_', mods = 'SHIFT|SUPER', action = w.action.SplitVertical { domain = 'CurrentPaneDomain' }},
 }
 
 return config
