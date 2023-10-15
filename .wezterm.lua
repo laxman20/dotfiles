@@ -59,6 +59,9 @@ config.keys = {
 	split_nav('resize', 'j'),
 	split_nav('resize', 'k'),
 	split_nav('resize', 'l'),
+	-- splits
+	{ key = '|', mods = 'SUPER', action = w.action.SplitHorizontal { domain = 'CurrentPaneDomain' }},
+	{ key = '_', mods = 'SUPER', action = w.action.SplitVertical { domain = 'CurrentPaneDomain' }},
 }
 
 return config
