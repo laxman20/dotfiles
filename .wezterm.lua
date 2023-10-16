@@ -1,4 +1,9 @@
+local w = require('wezterm')
 local config = {}
+
+if w.config_builder then
+	config = w.config_builder()
+end
 
 config.window_padding = {
 	left = 0,
@@ -9,7 +14,6 @@ config.window_padding = {
 
 config.color_scheme = 'OneDark (base16)'
 
-local w = require('wezterm')
 
 local function is_vim(pane)
 	return pane:get_user_vars().IS_NVIM == 'true'
@@ -64,6 +68,8 @@ config.keys = {
 	{ key = '_', mods = 'SUPER', action = w.action.SplitVertical { domain = 'CurrentPaneDomain' }},
 	{ key = '|', mods = 'SHIFT|SUPER', action = w.action.SplitHorizontal { domain = 'CurrentPaneDomain' }},
 	{ key = '_', mods = 'SHIFT|SUPER', action = w.action.SplitVertical { domain = 'CurrentPaneDomain' }},
+	-- remove Al+Enter binding
+	{ key = 'Enter', mods = 'ALT', action = w.action.DisableDefaultAssignment },
 }
 
 return config
