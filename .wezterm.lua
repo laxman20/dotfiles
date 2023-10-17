@@ -12,7 +12,8 @@ config.window_padding = {
 	bottom = 0,
 }
 
-config.color_scheme = 'OneDark (base16)'
+-- config.color_scheme = 'OneDark (base16)'
+config.color_scheme = 'nightfox'
 
 
 local function is_vim(pane)

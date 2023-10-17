@@ -1,15 +1,5 @@
 return {
 	'NoahTheDuke/vim-just',
-	{ 'navarasu/onedark.nvim', 
-		lazy = false,
-		config = function(_, opts)
-			require("onedark").setup(opts)
-			require'onedark'.load()
-		end,
-		opts = {
-			style = "warmer"
-		}
-	},
 	'tpope/vim-surround',
 	'tpope/vim-unimpaired',
 	'tpope/vim-repeat',
