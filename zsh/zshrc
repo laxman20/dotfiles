@@ -1,5 +1,5 @@
 [ -f ~/.config/zsh/config.zsh ] && source ~/.config/zsh/config.zsh
-[ -f ~/.zsh/antigen.zsh ] && source ~/.zsh/antigen.zsh
+source /opt/homebrew/share/antigen/antigen.zsh
 
 fpath=(~/.config/zsh/completions $fpath)
 
