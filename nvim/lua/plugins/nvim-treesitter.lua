@@ -10,7 +10,7 @@ return {'nvim-treesitter/nvim-treesitter',
 		configs.setup(opts)
 	end,
 	opts = {
-		ensure_installed = {"norg", "json", "java", "lua", "vim"},     -- one of "all", "language", or a list of languages
+		ensure_installed = {"norg", "bash", "json", "java", "lua", "vim"},     -- one of "all", "language", or a list of languages
 		highlight = {
 			enable = true
 		},

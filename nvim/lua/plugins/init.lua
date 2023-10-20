@@ -13,7 +13,6 @@ return {
 	'mfussenegger/nvim-jdtls',
 	'tommcdo/vim-lion',
 	'Vimjas/vim-python-pep8-indent',
-	'vim-test/vim-test',
 	{'kyazdani42/nvim-web-devicons', lazy = true},
 	{'gbprod/substitute.nvim',
 		config = function()

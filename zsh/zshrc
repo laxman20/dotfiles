@@ -27,6 +27,7 @@ alias todo='todo-go'
 alias iced='~/.config/nvim/pack/minpac/start/vim-iced/bin/iced'
 
 alias task='./Taskfile'
+alias j='just'
 alias gs='git status'
 alias gst='git status'
 alias gclean='git clean -f -d -x'
