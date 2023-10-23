@@ -53,6 +53,10 @@ local function split_nav(resize_or_move, key)
 	}
 end
 
+w.on('update-right-status', function(window, pane)
+	window:set_right_status(window:active_workspace())
+end)
+
 config.keys = {
 	-- move between split panes
 	split_nav('move', 'h'),
@@ -71,6 +75,40 @@ config.keys = {
 	{ key = '_', mods = 'SHIFT|SUPER', action = w.action.SplitVertical { domain = 'CurrentPaneDomain' }},
 	-- remove Al+Enter binding
 	{ key = 'Enter', mods = 'ALT', action = w.action.DisableDefaultAssignment },
+	-- Prompt for a name to use for a new workspace and switch to it.
+	{
+		key = 'I',
+		mods = 'SHIFT|SUPER',
+		action = w.action.PromptInputLine {
+			description = w.format {
+				{ Attribute = { Intensity = 'Bold' } },
+				{ Foreground = { AnsiColor = 'Fuchsia' } },
+				{ Text = 'Enter name for new workspace' },
+			},
+			action = w.action_callback(function(window, pane, line)
+				-- line will be `nil` if they hit escape without entering anything
+				-- An empty string if they just hit enter
+				-- Or the actual line of text they wrote
+				if line then
+					window:perform_action(
+						w.action.SwitchToWorkspace {
+							name = line,
+						},
+						pane
+					)
+				end
+			end),
+		},
+	},
+	-- Show the launcher in fuzzy selection mode and have it list all workspaces
+	-- and allow activating one.
+	{
+		key = '9',
+		mods = 'ALT',
+		action = w.action.ShowLauncherArgs {
+			flags = 'WORKSPACES',
+		},
+	},
 }
 
 return config
