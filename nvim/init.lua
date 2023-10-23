@@ -19,6 +19,7 @@ vim.o.splitbelow = true
 vim.o.cursorline = true
 vim.o.clipboard = 'unnamedplus'
 vim.o.completeopt = 'menuone,noselect'
+vim.o.swapfile = false
 
 vim.g.diagnostic_insert_delay = 1
 
