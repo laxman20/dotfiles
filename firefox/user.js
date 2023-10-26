@@ -256,6 +256,7 @@ user_pref("mousewheel.default.delta_multiplier_y",      275);  // 250-400
 // Enter your personal prefs below this line:
 user_pref("dom.push.enabled", true);
 user_pref("permissions.default.desktop-notification", 0);
+user_pref("browser.urlbar.showSearchSuggestionsFirst", false)
 
 /****************************************************************************
  * END: BETTERFOX                                                           *
