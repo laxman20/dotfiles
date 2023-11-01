@@ -10,12 +10,21 @@ return
 	-- 		style = "warmer"
 	-- 	}
 	-- },
+-- 	{
+-- 		"EdenEast/nightfox.nvim",
+-- 		lazy = false,
+-- 		priority = 1000,
+-- 		init = function()
+-- 			vim.cmd("colorscheme nightfox")
+-- 		end
+-- }
 	{
-		"EdenEast/nightfox.nvim",
+		"folke/tokyonight.nvim",
 		lazy = false,
 		priority = 1000,
+		opts = {},
 		init = function()
-			vim.cmd("colorscheme nightfox")
+			vim.cmd("colorscheme tokyonight-moon")
 		end
 	}
 

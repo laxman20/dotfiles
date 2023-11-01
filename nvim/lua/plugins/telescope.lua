@@ -8,6 +8,7 @@ return {
 	keys = {
 		{ "<Space>ff", "<cmd>lua require('telescope.builtin').find_files()<cr>"},
 		{ "<Space>fn", "<cmd>lua require('telescope.builtin').find_files({cwd = '~/norg/'})<cr>"},
+		{ "<Space>fc", "<cmd>lua require('telescope.builtin').find_files({cwd = '~/.config/nvim/'})<cr>"},
 		{ "<Space>fg", "<cmd>lua require('telescope.builtin').live_grep()<cr>"},
 
 	},
