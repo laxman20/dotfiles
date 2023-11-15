@@ -17,6 +17,7 @@ return {
 		local actions = require("telescope.actions")
 		telescope.setup({
 			defaults = {
+				wrap_results = true,
 				mappings = {
 					i = {
 						["<esc>"] = actions.close,

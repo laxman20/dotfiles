@@ -13,7 +13,8 @@ config.window_padding = {
 }
 
 -- config.color_scheme = 'OneDark (base16)'
-config.color_scheme = 'tokyonight_moon'
+-- config.color_scheme = 'tokyonight_moon'
+config.color_scheme = 'Sonokai (Gogh)'
 
 
 local function is_vim(pane)

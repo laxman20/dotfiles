@@ -18,13 +18,22 @@ return
 -- 			vim.cmd("colorscheme nightfox")
 -- 		end
 -- }
+	-- {
+	-- 	"folke/tokyonight.nvim",
+	-- 	lazy = false,
+	-- 	priority = 1000,
+	-- 	opts = { },
+	-- 	init = function()
+	-- 		vim.cmd("colorscheme tokyonight-moon")
+	-- 	end
+	-- }
 	{
-		"folke/tokyonight.nvim",
+		'sainnhe/sonokai',
 		lazy = false,
 		priority = 1000,
-		opts = {},
 		init = function()
-			vim.cmd("colorscheme tokyonight-moon")
+			vim.cmd('colorscheme sonokai')
 		end
+
 	}
 
