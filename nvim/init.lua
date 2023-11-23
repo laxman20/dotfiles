@@ -42,3 +42,4 @@ vim.api.nvim_create_autocmd({ "TextYankPost" }, {
 })
 
 require("lsp")
+require('wezterm')

@@ -16,9 +16,8 @@ config.window_padding = {
 -- config.color_scheme = 'tokyonight_moon'
 config.color_scheme = 'Sonokai (Gogh)'
 
-
 local function is_vim(pane)
-	return pane:get_user_vars().IS_NVIM == 'true'
+	return pane:get_user_vars().IS_VIM == 'true'
 end
 
 local direction_keys = {
@@ -38,7 +37,7 @@ local function split_nav(resize_or_move, key)
 		key = key,
 		mods = resize_or_move == 'resize' and 'META' or 'CTRL',
 		action = w.action_callback(function(win, pane)
-			if is_vim(pane) then
+			if is_vim(pane) and resize_or_move == 'move' then
 				-- pass the keys through to vim/nvim
 				win:perform_action({
 						SendKey = { key = key, mods = resize_or_move == 'resize' and 'META' or 'CTRL' },
@@ -111,5 +110,9 @@ config.keys = {
 		},
 	},
 }
+
+w.on('user-var-changed', function(window, pane, name, value)
+  w.log_info('var', name, value)
+end)
 
 return config
