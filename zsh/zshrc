@@ -54,6 +54,7 @@ alias kscale='kubectl scale deploy $(kubectl get deploy | tail -n+2 | c1 | fzf)'
 alias ksh='kubectl exec -it $(kubectl get pods | tail -n+2 | fzf | c1) sh'
 alias dockersh='docker exec -it $(docker ps | tail -n+2 | fzf | c1) sh'
 alias dockerkill='docker kill $(docker ps -q)'
+alias sshp='sshpass -p $(pass kronos) ssh'
 
 alias uncrustify-java='uncrustify -c $HOME/.config/uncrustify/java-uncrustify.cfg --no-backup --replace'
 
@@ -70,6 +71,8 @@ export PATH=/usr/local/opt/libpq/bin:$PATH
 
 export EDITOR='nvim'
 export LESS=eFRX
+
+export JULIA_CC="gcc-13"
 
 export CLOUDSDK_PYTHON=$(which python3)
 
