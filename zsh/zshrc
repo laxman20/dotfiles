@@ -3,6 +3,10 @@ source /opt/homebrew/share/antigen/antigen.zsh
 
 fpath=(~/.config/zsh/completions $fpath)
 
+if type brew &>/dev/null
+then
+  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+fi
 
 autoload -Uz compinit && compinit
 autoload -U edit-command-line
@@ -180,3 +184,6 @@ chmod +x ./Taskfile
 
 export PATH="$HOME/.jenv/bin:$PATH"
 eval "$(jenv init -)"
+
+echo "[ -s ~/.luaver/luaver ] && . ~/.luaver/luaver"
+echo "[ -s ~/.luaver/completions/luaver.bash ] && . ~/.luaver/completions/luaver.bash"

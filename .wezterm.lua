@@ -21,6 +21,7 @@ if string.find(w.target_triple, 'linux') then
 	config.window_decorations = 'INTEGRATED_BUTTONS|RESIZE'
 	config.integrated_title_button_style = "Gnome"
 end
+config.enable_kitty_graphics = true
 
 
 w.on('trigger-vim-with-visible-text', function(window, pane)
