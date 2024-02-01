@@ -27,12 +27,21 @@ return
 	-- 		vim.cmd("colorscheme tokyonight-moon")
 	-- 	end
 	-- }
+	-- {
+	-- 	'sainnhe/sonokai',
+	-- 	lazy = false,
+	-- 	priority = 1000,
+	-- 	init = function()
+	-- 		vim.cmd('colorscheme sonokai')
+	-- 	end
+	--
+	-- }
 	{
-		'sainnhe/sonokai',
+		'olimorris/onedarkpro.nvim',
 		lazy = false,
 		priority = 1000,
 		init = function()
-			vim.cmd('colorscheme sonokai')
+			vim.cmd('colorscheme onedark')
 		end
 
 	}

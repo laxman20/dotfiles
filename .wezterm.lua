@@ -14,7 +14,8 @@ config.window_padding = {
 
 -- config.color_scheme = 'OneDark (base16)'
 -- config.color_scheme = 'tokyonight_moon'
-config.color_scheme = 'Sonokai (Gogh)'
+-- config.color_scheme = 'Sonokai (Gogh)'
+config.color_scheme = 'onedarkpro_onedark'
 
 
 
