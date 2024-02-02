@@ -17,6 +17,10 @@ config.window_padding = {
 -- config.color_scheme = 'Sonokai (Gogh)'
 config.color_scheme = 'onedarkpro_onedark'
 
+if string.find(w.target_triple, 'linux') then
+	config.window_decorations = 'INTEGRATED_BUTTONS|RESIZE'
+	config.integrated_title_button_style = "Gnome"
+end
 
 
 w.on('trigger-vim-with-visible-text', function(window, pane)
