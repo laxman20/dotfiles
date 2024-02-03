@@ -2,7 +2,7 @@ return {'nvim-treesitter/nvim-treesitter',
 	build = ':TSUpdate',
 	event = { "VeryLazy", },
 	dependencies = {
-		{ "nvim-treesitter/nvim-treesitter-textobjects", },
+		{ "nvim-treesitter/nvim-treesitter-textobjects", "vim-treesitter/nvim-treesitter-refactor" },
 	},
 	cmd = { "TSUpdateSync" },
 	config = function(_, opts) 
@@ -10,7 +10,7 @@ return {'nvim-treesitter/nvim-treesitter',
 		configs.setup(opts)
 	end,
 	opts = {
-		ensure_installed = {"norg", "bash", "json", "java", "lua", "vim"},     -- one of "all", "language", or a list of languages
+		ensure_installed = {"norg", "bash", "json", "java", "lua", "vim", "python"},     -- one of "all", "language", or a list of languages
 		highlight = {
 			enable = true
 		},
@@ -31,6 +31,14 @@ return {'nvim-treesitter/nvim-treesitter',
 				},
 				goto_previous_end = {
 					["[F"] = "@function.outer", ["[C"] = "@class.outer"
+				},
+			},
+		},
+		 refactor = {
+			    navigation = {
+			      enable = true,
+				keymaps = {
+					goto_definition_lsp_fallback = "gd",
 				},
 			},
 		},
