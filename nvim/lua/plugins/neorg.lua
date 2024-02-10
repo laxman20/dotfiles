@@ -1,6 +1,6 @@
 return { 'nvim-neorg/neorg',
 	build = ':Neorg sync-parsers',
-	dependencies = { "nvim-lua/plenary.nvim" },
+	dependencies = { "nvim-lua/plenary.nvim", "nvim-neorg/neorg-telescope" },
 	cmd = "Neorg",
 	ft = "norg",
 	opts = {
@@ -33,6 +33,21 @@ return { 'nvim-neorg/neorg',
 					engine = "nvim-cmp"
 				},
 			},
+			["core.integrations.telescope"] = {},
 		},
-	}
+	},
+	init = function()
+		local neorg_callbacks = require("neorg.core.callbacks")
+
+		neorg_callbacks.on_event("core.keybinds.events.enable_keybinds", function(_, keybinds)
+			keybinds.map_event_to_mode("norg", {
+				i = {
+					{ "<C-l>", "core.integrations.telescope.insert_link" },
+				},
+				}, {
+					silent = true,
+					noremap = true,
+			})
+		end)
+	end
 }
