@@ -1,4 +1,4 @@
 return {
-	'3rd/image.nvim',
-	config = true
+	-- '3rd/image.nvim',
+	-- config = true
 }
