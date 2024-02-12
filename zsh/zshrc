@@ -59,6 +59,7 @@ alias ksh='kubectl exec -it $(kubectl get pods | tail -n+2 | fzf | c1) sh'
 alias dockersh='docker exec -it $(docker ps | tail -n+2 | fzf | c1) sh'
 alias dockerkill='docker kill $(docker ps -q)'
 alias sshp='sshpass -p $(pass kronos) ssh'
+alias kssh='kitten sshpass -p $(pass kronos) ssh'
 
 alias uncrustify-java='uncrustify -c $HOME/.config/uncrustify/java-uncrustify.cfg --no-backup --replace'
 
