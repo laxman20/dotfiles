@@ -143,15 +143,6 @@ klogs() {
 }
 
 
-if [[ -f "$HOME/vault/client.key" && -f "$HOME/vault/client.cert" ]]; then
-	export VAULT_ADDR=https://vault-d-dc.mia.ucloud.int:8200
-	export VAULT_ROOT=secret/perception
-	export VAULT_CLIENT_KEY_PATH=~/vault/client.key
-	export VAULT_CLIENT_CERT_PATH=~/vault/client.cert
-
-	alias vault-login="vault login -method=cert -client-cert=$VAULT_CLIENT_CERT_PATH -client-key=$VAULT_CLIENT_KEY_PATH"
-fi
-
 export SHELL=/bin/zsh
 export PATH=$HOME/.local/bin/homebrew/opt/mongodb-community@4.0/bin:$PATH
 export PATH=$HOME/go/bin:$PATH
@@ -188,3 +179,22 @@ eval "$(jenv init -)"
 
 echo "[ -s ~/.luaver/luaver ] && . ~/.luaver/luaver"
 echo "[ -s ~/.luaver/completions/luaver.bash ] && . ~/.luaver/completions/luaver.bash"
+
+eval "$(starship init zsh)"
+eval "$(atuin init zsh --disable-up-arrow)"
+eval "$(zoxide init zsh --cmd cd)"
+
+if command -v eza &> /dev/null
+	alias l="eza --sort Name"
+	alias ll="eza --sort Name --long"
+	alias la="eza --sort Name --long --all"
+	alias lr="eza --sort Name --long --recurse"
+	alias lra="eza --sort Name --long --recurse --all"
+	alias lt="eza --sort Name --long --tree"
+	alias lta="eza --sort Name --long --tree --all"
+
+	alias ls="eza --sort Name"
+then
+fi
+
+
