@@ -1,0 +1,15 @@
+#!/bin/zsh
+
+INPUT="$1"
+OUTPUT_FORMAT="$2"
+
+if [[ -z "$INPUT" ]]; then
+	echo "Norg file required"
+fi
+
+if [[ -z "$OUTPUT_FORMAT" ]]; then
+	OUTPUT_FORMAT="jira"
+fi
+
+cd /Users/laxmansooriyathas/dev/norg-pandoc
+pandoc --from=init.lua --to="$OUTPUT_FORMAT" "$INPUT"

@@ -1,4 +1,0 @@
---kinds-scss=-c
---kinddef-scss=C,cssClass,classes
---regex-scss=/^([A-Za-z0-9_-]*)*\.([A-Za-z0-9_-]+) *[,{]/\2/C/
---regex-scss=/^[ \t]+\.([A-Za-z0-9_-]+) *[,{]/\1/C/

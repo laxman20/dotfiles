@@ -1,3 +1,0 @@
---regex-TypeScript=/^export default class ([[:alpha:]]+) {$/\1/c/{scope=set}
---regex-TypeScript=/^[[:blank:]]+(public|private)[[:blank:]]+([[:alpha:]]+) = [(].*[)](: [[:alpha:]]+)? => {$/\2/m/{scope=ref}
---kinds-TypeScript=-p-v
