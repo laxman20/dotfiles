@@ -1,0 +1,201 @@
+[ -f ~/.config/zsh/config.zsh ] && source ~/.config/zsh/config.zsh
+source /opt/homebrew/share/antigen/antigen.zsh
+
+fpath=(~/.config/zsh/completions $fpath)
+
+if type brew &>/dev/null
+then
+  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+fi
+
+autoload -Uz compinit && compinit
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey -e
+bindkey '^x^e' edit-command-line
+zstyle ':completion:*' completer _expand_alias _complete _ignored
+zstyle ':completion:*' regular true
+
+antigen bundle zsh-users/zsh-autosuggestions
+
+antigen bundle zsh-users/zsh-syntax-highlighting
+
+antigen apply
+
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"
+
+set -o ignoreeof
+
+alias vim='nvim'
+alias norg='nvim -c "Neorg index"'
+alias cat='bat'
+alias todo='todo-go'
+alias iced='~/.config/nvim/pack/minpac/start/vim-iced/bin/iced'
+
+alias task='./Taskfile'
+alias j='just'
+alias gs='git status'
+alias gst='git status'
+alias gclean='git clean -f -d -x'
+alias gdiff='git diff'
+alias gcm='git commit -m "$(jira): '
+alias gprune="git fetch -p && git branch -vv | grep 'origin/.*: gone]' | c1 | xargs git branch -d"
+alias gre='git checkout -- .'
+alias jd='java -jar ~/dev/jd-gui-1.6.6.jar'
+alias c1="awk '{print \$1}'"
+alias c2="awk '{print \$2}'"
+alias c3="awk '{print \$3}'"
+alias c4="awk '{print \$4}'"
+alias c5="awk '{print \$5}'"
+alias c6="awk '{print \$6}'"
+alias c7="awk '{print \$7}'"
+alias c8="awk '{print \$8}'"
+alias c9="awk '{print \$9}'"
+
+alias kpods='kubectl get pods'
+alias kdeploy='kubectl get deploy | tail -n+2 | c1 | fzf | pbcopy'
+alias kscale='kubectl scale deploy $(kubectl get deploy | tail -n+2 | c1 | fzf)'
+alias ksh='kubectl exec -it $(kubectl get pods | tail -n+2 | fzf | c1) sh'
+alias dockersh='docker exec -it $(docker ps | tail -n+2 | fzf | c1) sh'
+alias dockerkill='docker kill $(docker ps -q)'
+alias sshp='sshpass -p $(pass kronos) ssh'
+alias kssh='kitten sshpass -p $(pass kronos) ssh'
+
+alias uncrustify-java='uncrustify -c $HOME/.config/uncrustify/java-uncrustify.cfg --no-backup --replace'
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_DEFAULT_COMMAND='fd --type f'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+
+PROMPT='%B%F{240}%1~%f%b > '
+
+export PATH=$HOME/.node/bin:$HOME/.local/bin:$PATH
+export PATH=/usr/local/opt/gnu-sed/libexec/gnubin:$PATH
+export PATH=/usr/local/opt/libpq/bin:$PATH
+
+export EDITOR='nvim'
+export LESS=eFRX
+
+export JULIA_CC="gcc-13"
+
+export CLOUDSDK_PYTHON=$(which python3)
+
+full-join() {
+	cat <(join -t',' -a1 -o'0,1.2,2.2' <(cat "$1") <(cat "$2")) \
+		<(join -t',' -a2 -o'0,1.2,2.2' <(cat "$1") <(cat "$2")) \
+		| sort -u
+}
+
+jira() {
+	git rev-parse --abbrev-ref HEAD | rg -o '(PRO|DIM)-\d{5,6}'
+}
+
+vimscript() {
+	nvim `which "$1"`
+}
+
+chenv() {
+	strat environment get-credentials "$1" --region "${2:-dlas1}"
+}
+
+kube-secret() {
+	kubectl get secret $(kubectl get secret | fzf --reverse --height 40% | c1) -o yaml \
+		| ag '^([ ]*)?uri:' | sed 's/^.*uri: //' | base64 -D | sed 's/:3306/:3307/'
+}
+
+kcontext() {
+	kubectl config set-context --current --namespace=$1
+}
+
+gch() {
+	git checkout $(git branch -a -vv --color=always --sort=committerdate | grep -v '/HEAD\s' \
+		| fzf --height 40% --ansi --multi --tac | sed 's/^..//' | awk '{print $1}' \
+		| sed 's#^remotes/[^/]*/##')
+}
+
+services() {
+	curl -s "https://wfm-tenant-web.wfm-dev.dlas1.ucloud.int/assets/services_export_$1.csv" \
+		| tail -n+2 | tr "," "	" | ag --no-color "$2" | column -t
+}
+
+clean-psr() {
+	mv ~/Downloads/*-*-*-*-*.zip ~/Downloads/psrtests
+	mv ta-regression* ~/Downloads/psrtests
+}
+
+integration-test() {
+	mvn clean integration-test -U -Pintegrationtest -Dinclude.test.tags="$1"
+}
+
+currentmillis() {
+	gdate -d @$(  echo "($1 + 500) / 1000" | bc)
+}
+
+port-kill() {
+	kill $(lsof -t -i:$1)
+}
+
+klogs() {
+	POD=$(kubectl get pods | tail -n+2 | c1 | fzf)
+	CONTAINER=${POD:0:-17}
+	kubectl logs -f $POD $CONTAINER
+}
+
+
+export SHELL=/bin/zsh
+export PATH=$HOME/.local/bin/homebrew/opt/mongodb-community@4.0/bin:$PATH
+export PATH=$HOME/go/bin:$PATH
+export PATH="/usr/local/opt/maven@3.5/bin:$PATH"
+export PATH="/usr/local/opt/kafka/bin:$PATH"
+
+export PIPENV_VENV_IN_PROJECT=1
+export N_PREFIX=$HOME/.node
+export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/laxmanso/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/laxmanso/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/laxmanso/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/laxmanso/google-cloud-sdk/completion.zsh.inc'; fi
+
+taskinit() {
+	if [ -f './Taskfile' ]; then
+		echo 'Taskfile already exists'
+	else
+		cat <<'eos' > Taskfile
+#!/bin/bash
+
+source ~/.config/task/Taskfile
+
+$@
+eos
+chmod +x ./Taskfile
+	fi
+}
+
+export PATH="$HOME/.jenv/bin:$PATH"
+eval "$(jenv init -)"
+
+echo "[ -s ~/.luaver/luaver ] && . ~/.luaver/luaver"
+echo "[ -s ~/.luaver/completions/luaver.bash ] && . ~/.luaver/completions/luaver.bash"
+
+eval "$(starship init zsh)"
+eval "$(atuin init zsh --disable-up-arrow)"
+eval "$(zoxide init zsh --cmd cd)"
+
+if command -v eza &> /dev/null
+	alias l="eza --sort Name"
+	alias ll="eza --sort Name --long"
+	alias la="eza --sort Name --long --all"
+	alias lr="eza --sort Name --long --recurse"
+	alias lra="eza --sort Name --long --recurse --all"
+	alias lt="eza --sort Name --long --tree"
+	alias lta="eza --sort Name --long --tree --all"
+
+	alias ls="eza --sort Name"
+then
+fi
+
+GPG_TTY=$(tty)
+export GPG_TTY

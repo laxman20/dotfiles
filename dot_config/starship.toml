@@ -1,0 +1,5 @@
+[gcloud]
+disabled = true
+
+[python]
+disabled = true
