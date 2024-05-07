@@ -39,9 +39,6 @@ clean:
 	cd {{invocation_directory()}}
 	./gradlew clean -Dorg.gradle.jvmargs="-Xms1024m -Xmx4096m" -Pteam={{default_team}} -x test
 
-sh-bff:
-	docker exec -it frontend-nodejs sh
-		
 build-node:
 	#!/usr/bin/env bash
 	cd ~/dev/dimensions/frontend/packages/pres/base
