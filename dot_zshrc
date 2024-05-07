@@ -79,7 +79,7 @@ export LESS=eFRX
 
 export JULIA_CC="gcc-13"
 
-export CLOUDSDK_PYTHON=$(which python3)
+export CLOUDSDK_PYTHON=$(brew --prefix)/python@3.10/libexec/bin/python3
 
 full-join() {
 	cat <(join -t',' -a1 -o'0,1.2,2.2' <(cat "$1") <(cat "$2")) \
