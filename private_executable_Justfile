@@ -1,6 +1,7 @@
 default_team := 'wethenorth-sl-r9int'
 default_namespace := 'laxman-sooriyathas'
 
+
 default:
 	@just --list
 
