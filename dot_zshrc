@@ -1,5 +1,9 @@
 [ -f ~/.config/zsh/config.zsh ] && source ~/.config/zsh/config.zsh
-source /opt/homebrew/share/antigen/antigen.zsh
+if [ ! -f $HOME/antigen.zsh ]; then
+    curl -L git.io/antigen > $HOME/antigen.zsh
+fi
+source $HOME/antigen.zsh
+
 
 fpath=(~/.config/zsh/completions $fpath)
 
@@ -79,7 +83,7 @@ export LESS=eFRX
 
 export JULIA_CC="gcc-13"
 
-export CLOUDSDK_PYTHON=$(brew --prefix)/python@3.10/libexec/bin/python3
+export CLOUDSDK_PYTHON=$(brew --prefix)/opt/python@3.10/libexec/bin/python3
 
 full-join() {
 	cat <(join -t',' -a1 -o'0,1.2,2.2' <(cat "$1") <(cat "$2")) \
