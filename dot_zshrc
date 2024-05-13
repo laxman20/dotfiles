@@ -181,9 +181,6 @@ chmod +x ./Taskfile
 export PATH="$HOME/.jenv/bin:$PATH"
 eval "$(jenv init -)"
 
-echo "[ -s ~/.luaver/luaver ] && . ~/.luaver/luaver"
-echo "[ -s ~/.luaver/completions/luaver.bash ] && . ~/.luaver/completions/luaver.bash"
-
 eval "$(starship init zsh)"
 eval "$(atuin init zsh --disable-up-arrow)"
 eval "$(zoxide init zsh --cmd cd)"
