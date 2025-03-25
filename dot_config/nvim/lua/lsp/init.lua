@@ -3,8 +3,6 @@ local nvim_lsp = require'lspconfig'
 require("mason").setup({})
 require("mason-lspconfig").setup({})
 
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
-
 local mapper = function(mode, key, result)
   vim.api.nvim_buf_set_keymap(0, mode, key, result, { noremap = true, silent = true })
 end
@@ -26,16 +24,15 @@ local on_attach = function()
 
 end
 
-nvim_lsp.bashls.setup{ on_attach=on_attach, capabilities=capabilities }
-nvim_lsp.tsserver.setup{ on_attach=on_attach, capabilities=capabilities }
-nvim_lsp.angularls.setup{ on_attach=on_attach, capabilities=capabilities }
+nvim_lsp.bashls.setup{ on_attach=on_attach }
+nvim_lsp.ts_ls.setup{ on_attach=on_attach }
+nvim_lsp.angularls.setup{ on_attach=on_attach }
 
 local project_library_path = "./node_nodules"
 local cmd = {"ngserver", "--stdio", "--tsProbeLocations", project_library_path , "--ngProbeLocations", project_library_path}
 
 nvim_lsp.angularls.setup{
   on_attach=on_attach,
-  capabilities=capabilities,
   cmd = cmd,
   on_new_config = function(new_config,new_root_dir)
     new_config.cmd = cmd
@@ -43,7 +40,6 @@ nvim_lsp.angularls.setup{
 }
 nvim_lsp.pyright.setup{ 
   on_attach=on_attach,
-  capabilities=capabilities,
   -- before_init = function(_, config)
   --   config.settings.python.pythonPath = 'docker/2.7/.venv/bin/python'
   -- end
@@ -51,7 +47,7 @@ nvim_lsp.pyright.setup{
 
 function setup_java()
   local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
-  local workspace_dir = '/Users/laxmanso/.local/share/workspace/' .. project_name
+  local workspace_dir = '/Users/laxmansooriyathas/.local/share/workspace/' .. project_name
 
   local jdtls = require 'jdtls'
   -- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
@@ -61,7 +57,7 @@ function setup_java()
     cmd = {
 
       -- 💀
-      '/Users/laxmanso/.jenv/versions/openjdk64-18.0.1.1/bin/java', -- or '/path/to/java17_or_newer/bin/java'
+      '/opt/homebrew/Cellar/openjdk/21.0.3/bin/java', -- or '/path/to/java17_or_newer/bin/java'
       -- depends on if `java` is in your $PATH env variable and if it points to the right version.
 
       '-Declipse.application=org.eclipse.jdt.ls.core.id1',
@@ -75,14 +71,14 @@ function setup_java()
       '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
 
       -- 💀
-      '-jar', vim.fn.glob('/Users/laxmanso/.local/jdt-language-server-1.12.0/plugins/org.eclipse.equinox.launcher_*.jar'),
+      '-jar', vim.fn.glob('/opt/jdtls/plugins/org.eclipse.equinox.launcher_*.jar'),
       -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^                                       ^^^^^^^^^^^^^^
       -- Must point to the                                                     Change this to
       -- eclipse.jdt.ls installation                                           the actual version
 
 
       -- 💀
-      '-configuration', '/Users/laxmanso/.local/jdt-language-server-1.12.0/config_mac',
+      '-configuration', '/opt/jdtls/config_mac',
       -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        ^^^^^^
       -- Must point to the                      Change to one of `linux`, `win` or `mac`
       -- eclipse.jdt.ls installation            Depending on your system.
@@ -129,8 +125,7 @@ function setup_java()
     on_attach = function()
       on_attach()
       mapper('n', '<A-o>', '<cmd>lua require"jdtls".organize_imports()<CR>')
-    end,
-    capabilities=capabilities
+    end
   }
   -- This starts a new client & server,
   -- or attaches to an existing client & server depending on the `root_dir`.

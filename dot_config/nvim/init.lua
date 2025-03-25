@@ -34,7 +34,11 @@ vim.api.nvim_create_user_command("Ghistory", "Gllog -- %", {})
 
 vim.keymap.set("i", "jk", "<Esc>", { noremap = true })
 vim.keymap.set("i", "<C-f>", "<C-x><C-f>", { noremap = true })
-vim.keymap.set("t", "jk", "<C-\\><C-n>", { noremap = true })
+vim.keymap.set("n", "<C-j>", "<C-w>j", { noremap = true })
+vim.keymap.set("n", "<C-k>", "<C-w>k", { noremap = true })
+vim.keymap.set("n", "<C-l>", "<C-w>l", { noremap = true })
+vim.keymap.set("n", "<C-h>", "<C-w>h", { noremap = true })
+-- vim.keymap.set("t", "jk", "<C-\\><C-n>", { noremap = true })
 
 local mygroup = vim.api.nvim_create_augroup("commands", { clear = true })
 vim.api.nvim_create_autocmd({ "TextYankPost" }, {
@@ -45,4 +49,3 @@ vim.api.nvim_create_autocmd({ "TextYankPost" }, {
 })
 
 require("lsp")
-require('wezterm')

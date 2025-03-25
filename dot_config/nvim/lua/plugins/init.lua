@@ -3,13 +3,7 @@ return {
 	'tpope/vim-surround',
 	'tpope/vim-unimpaired',
 	'tpope/vim-repeat',
-	'tpope/vim-fugitive',
 	'tpope/vim-sleuth',
-	{ 'tommcdo/vim-fubitive',
-		init = function()
-			vim.g.fubitive_domain_pattern = 'engstash.int.kronos.com'
-		end,
-	},
 	'mfussenegger/nvim-jdtls',
 	'tommcdo/vim-lion',
 	'Vimjas/vim-python-pep8-indent',
@@ -24,5 +18,6 @@ return {
 		end,
 	},
 	{ 'wellle/targets.vim' },
-	{ 'jamestthompson3/nvim-remote-containers' }
+	{ 'jamestthompson3/nvim-remote-containers' },
+	{ 'kevinhwang91/nvim-bqf' }
 }
