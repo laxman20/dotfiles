@@ -1,0 +1,3 @@
+command = /usr/bin/fish --login --interactive
+
+maximize = true
