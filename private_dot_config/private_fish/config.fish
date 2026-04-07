@@ -3,4 +3,6 @@ if status is-interactive
   abbr vim nvim
   abbr gst git status
   abbr gdiff git diff
+
+  fish_add_path /opt/nvim-linux-x86_64/bin
 end
