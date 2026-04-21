@@ -15,8 +15,23 @@ require('mini.pairs').setup()
 require('mini.jump').setup()
 require('mini.jump2d').setup({
 	mappings = {
-		start_jumping = 's'
+		start_jumping = 'S'
 	}
+})
+require('mini.surround').setup({
+	mappings = {
+		add = 'ys',
+		delete = 'ds',
+		find = '',
+		find_left = '',
+		highlight = '',
+		replace = 'cs',
+
+		-- Add this only if you don't want to use extended mappings
+		suffix_last = '',
+		suffix_next = '',
+	},
+	search_method = 'cover_or_next',
 })
 
 require('blink.cmp').setup({
