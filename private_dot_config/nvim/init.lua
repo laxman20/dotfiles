@@ -51,7 +51,7 @@ require('obsidian').setup({
 	},
 	workspaces = {{
 		name =  "personal",
-		path = "~/wiki"
+		path = "~/Documents/wiki"
 	}},
 	callbacks = {
 		enter_note = function(note)
