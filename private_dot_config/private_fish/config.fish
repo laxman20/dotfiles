@@ -5,4 +5,6 @@ if status is-interactive
   abbr gdiff git diff
 
   fish_add_path /opt/nvim-linux-x86_64/bin
+
+  set -gx RIPGREP_CONFIG_PATH $HOME/.config/ripgrep/ripgreprc
 end
